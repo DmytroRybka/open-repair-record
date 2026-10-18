@@ -18,6 +18,8 @@ concurrency:
 
 jobs:
   build:
+    # Free GitHub Pages needs a public repository. While the repo is private, nothing runs.
+    if: ${{ !github.event.repository.private }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
