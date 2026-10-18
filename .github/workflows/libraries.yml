@@ -1,0 +1,37 @@
+name: Libraries (Python, .NET)
+
+# The Python and .NET libraries must give the TypeScript core's answers on the shared vectors (vectors/orr-1.0.json).
+on:
+  push:
+    paths: ["packages/python/**", "packages/dotnet/**", "vectors/**", "src/schema/**", ".github/workflows/libraries.yml"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.9", "3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install pytest build
+      - run: pytest -q
+        working-directory: packages/python
+      - name: Builds a wheel and an sdist
+        run: python -m build
+        working-directory: packages/python
+
+  dotnet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - run: dotnet test packages/dotnet/tests/OpenRepairRecord.Tests --nologo
+      - name: Packs the NuGet package
+        run: dotnet pack packages/dotnet/src/OpenRepairRecord -c Release -o out --nologo

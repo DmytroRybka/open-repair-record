@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <RootNamespace>OpenRepairRecord</RootNamespace>
+    <PackageId>OpenRepairRecord</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Dmytro Rybka</Authors>
+    <Description>Read, validate and check Open Repair Record 1.0 files: what a completed repair actually means. The same rules, codes and messages as the editor at openrepairrecord.com.</Description>
+    <PackageTags>repair;maintenance;work-order;facility-management;property-management;json-schema</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://openrepairrecord.com/tools/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/DmytroRybka/open-repair-record</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="../../../../src/schema/orr-1.0.schema.json" LogicalName="orr-1.0.schema.json" />
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+  </ItemGroup>
+
+</Project>

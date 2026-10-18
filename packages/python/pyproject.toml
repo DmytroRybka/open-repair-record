@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "open-repair-record"
+version = "1.0.0"
+description = "Read, validate and check Open Repair Record 1.0 files: what a completed repair actually means."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.9"
+authors = [{ name = "Dmytro Rybka" }]
+keywords = ["repair", "maintenance", "work-order", "facility-management", "property-management", "json-schema"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Typing :: Typed",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://openrepairrecord.com/tools/"
+Source = "https://github.com/DmytroRybka/open-repair-record"
+Issues = "https://github.com/DmytroRybka/open-repair-record/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/open_repair_record"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/open_repair_record", "tests", "README.md", "LICENSE"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
