@@ -22,21 +22,64 @@ const principles = [
 ---
 <Base
   title="Open Repair Record"
-  description="What does a completed repair actually mean? An open guide and a free tool for writing a clear repair completion report: what was done, what was checked, and whether the resident's problem is solved."
+  description="Work order close-out: the job card says Completed, but what was done, what was checked, and is the resident's problem solved? An open guide and a free tool for an honest close-out report."
 >
   <section class="hero">
-    <div class="wrap">
-      <p class="eyebrow">An open guide and a free tool</p>
-      <h1 style="max-width:16em">What does a completed repair actually mean?</h1>
-      <p class="lead">
-        The contractor closes the job. But what was done, what was checked, and is the resident's problem actually
-        solved? Open Repair Record is a simple, shared way to write that down, so anyone can read it, in any system.
-      </p>
-      <div class="btn-row" style="margin-top:24px">
-        <a class="btn btn-primary" href="/build/">Create a repair completion report</a>
-        <a class="btn" href="/guide/">Read the guide</a>
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Work order close-out</p>
+        <h1>The job card says <span class="nowrap">"Completed".</span> Does anyone know what that means?</h1>
+        <p class="lead">
+          What was done, what was checked, and is the resident's problem actually solved? Open Repair Record is an open
+          guide and a free tool for an honest close-out: one record anyone can read, in any system.
+        </p>
+        <div class="btn-row" style="margin-top:24px">
+          <a class="btn btn-primary" href="/build/">Create a close-out report</a>
+          <a class="btn" href="/guide/">Read the guide</a>
+        </div>
+        <p class="small muted" style="margin-top:14px">Free, no account, and nothing leaves your browser. Print it, save it as PDF, or send it on WhatsApp.</p>
       </div>
-      <p class="small muted" style="margin-top:14px">Free, no account, and nothing leaves your browser. Print it, save it as PDF, or send it on WhatsApp.</p>
+
+      <figure class="versus" aria-label="The same job twice: a job card marked Completed, and the same job as an Open Repair Record">
+        <div class="jobcard" aria-label="A typical job card">
+          <div class="jc-head"><span>JOB CARD</span><span>No. Q-1204</span></div>
+          <dl>
+            <div><dt>Location</dt><dd>Tower 2, Apt 1204</dd></div>
+            <div><dt>Fault</dt><dd>AC leaking</dd></div>
+            <div><dt>Technician</dt><dd>Ravi K.</dd></div>
+            <div><dt>Remarks</dt><dd>Done.</dd></div>
+          </dl>
+          <div class="stamp" aria-label="Stamped completed">Completed</div>
+        </div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div class="orr" aria-label="The same job as an Open Repair Record">
+          <div class="orr-head"><span>Open Repair Record</span><span>Q-1204</span></div>
+          <div class="orr-row"><b>Contractor says</b>Resolved: cleared the drain · Ravi K., 11 Oct</div>
+          <div class="orr-row"><b>Checked</b>15-min test run · unit not inspected</div>
+          <div class="orr-row orr-amber"><b>Resident</b>No reply (asked 11 Oct)</div>
+          <div class="orr-row"><b>Closed</b>Work reported done, no reply after 4 days</div>
+        </div>
+        <figcaption class="small muted">The same fictional job, twice. <a href="/guide/good-and-weak/">Why it matters →</a></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid grid-3">
+        <div>
+          <h3 style="margin-top:0">Repeat call-outs</h3>
+          <p class="muted" style="margin:0">A job closed on the contractor's word looks like a first-time fix, until the resident calls again.</p>
+        </div>
+        <div>
+          <h3 style="margin-top:0">Disputes</h3>
+          <p class="muted" style="margin:0">When an owner or a resident disputes a repair, a record of who said what is the first thing you need.</p>
+        </div>
+        <div>
+          <h3 style="margin-top:0">Handover</h3>
+          <p class="muted" style="margin:0">A new contractor, a new manager, a new system: the record travels as a PDF or a JSON file.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -111,3 +154,27 @@ const principles = [
     </div>
   </section>
 </Base>
+
+<style>
+  .hero-grid { display: grid; gap: 40px; align-items: center; }
+  @media (min-width: 1024px) { .hero-grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 56px; } }
+  .hero h1 { font-size: clamp(2rem, 4.6vw, 3rem); }
+  .nowrap { white-space: nowrap; }
+  .versus { margin: 0; display: grid; gap: 14px; align-items: center; grid-template-columns: 1fr; }
+  @media (min-width: 560px) { .versus { grid-template-columns: minmax(0, 0.9fr) auto minmax(0, 1.1fr); } }
+  .versus figcaption { grid-column: 1 / -1; }
+  .arrow { font-size: 28px; color: var(--muted); text-align: center; }
+  @media (max-width: 559px) { .arrow { transform: rotate(90deg); } }
+  .jobcard { position: relative; background: #fbfaf5; border: 1px solid #d8d3c4; border-radius: 6px; padding: 14px 16px 62px; font-family: var(--mono); font-size: 0.8rem; color: #3b3a33; box-shadow: 2px 3px 0 rgb(0 0 0 / 5%); }
+  .jc-head { display: flex; justify-content: space-between; border-bottom: 2px solid #3b3a33; padding-bottom: 6px; margin-bottom: 8px; font-weight: 700; letter-spacing: 0.06em; }
+  .jobcard dl { margin: 0; }
+  .jobcard dl div { display: grid; grid-template-columns: 6.5em 1fr; border-bottom: 1px dashed #d8d3c4; padding: 5px 0; }
+  .jobcard dt { color: #8a8574; }
+  .jobcard dd { margin: 0; }
+  .stamp { position: absolute; right: 14px; bottom: 14px; transform: rotate(-12deg); border: 3px solid #b42318; color: #b42318; font: 800 1.05rem/1 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 10px; border-radius: 6px; opacity: 0.85; background: rgb(255 255 255 / 55%); }
+  .orr { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); display: grid; gap: 8px; }
+  .orr-head { display: flex; justify-content: space-between; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-ink); padding-bottom: 4px; border-bottom: 2px solid var(--ink); }
+  .orr-row { border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; font-size: 0.86rem; line-height: 1.35; }
+  .orr-row b { display: block; font-size: 0.66rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 1px; }
+  .orr-amber { background: var(--amber-soft); border-color: #f0d9a8; }
+</style>
