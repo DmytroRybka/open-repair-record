@@ -1,23 +1,53 @@
 ---
 import Base from "../layouts/Base.astro";
 import { EXAMPLES } from "../examples";
+import Walkthrough from "../components/Walkthrough.astro";
+import schema from "../schema/orr-0.1.schema.json";
 
-const fields = [
-  ["orr_version", "Always \"0.1\" for this version.", "yes"],
-  ["id", "Your job or ticket number.", ""],
-  ["title", "A short title.", ""],
-  ["timezone", "The property's IANA time zone, e.g. Asia/Qatar, when it matters.", ""],
-  ["related_ids", "Other records about the same problem.", ""],
-  ["context", "location, area (unit | common_area), asset, reported_at, reported_by_role, symptom.", "yes"],
-  ["work[]", "Contractor statements, oldest first: by {name, company, role}, at, done, diagnosis, outcome (resolved | temporary_fix | partial | not_done | no_access), follow_up_needed, follow_up.", "yes"],
-  ["checks[]", "by_role (technician | coordinator | inspector | resident | other), by_name, at, method (test_run | measurement | visual | photo_review | other), result, limits.", "yes"],
-  ["evidence[]", "type (photo | measurement | test_log | certificate | document | other), description, taken_by, taken_at, reference.", "yes"],
-  ["resident", "status (resolved | not_resolved | not_asked | pending | no_reply | not_applicable), asked_at, answered_at, words, channel.", "yes"],
-  ["open_items[]", "what, owner, next_step, due.", "yes"],
-  ["status", "open | closed.", "yes"],
-  ["closure", "Only while closed: closed_by {name, company, role}, closed_at, reason_code (confirmed_by_resident | work_reported_done_no_reply | administrative | duplicate | cancelled | other), reason.", ""],
-  ["history[]", "Later additions, oldest first: at, by, kind (resident_reply | revisit | correction | reopened | note), text, previous_closure.", "yes"],
+// The field reference is generated from the JSON Schema, so the explanations can never drift from it.
+type Node = Record<string, any>;
+const defs = (schema as Node).$defs as Record<string, Node>;
+const resolve = (n: Node): Node => {
+  if (!n.$ref) return n;
+  const def = defs[String(n.$ref).split("/").pop()!]!;
+  return { ...def, ...n, description: n.description ?? def.description, _def: String(n.$ref).split("/").pop() };
+};
+interface Row { path: string; kind: string; values?: string[]; text: string; example?: string; required: boolean }
+const kindOf = (n: Node): string =>
+  n.const !== undefined ? `always "${n.const}"` : n.enum ? "one of" : n._def === "date" ? "date" : n.type === "boolean" ? "yes / no"
+    : n.type === "array" ? "list" : n.type === "object" || n.properties ? "group" : "text";
+const walk = (prefix: string, node: Node, required: string[], out: Row[]) => {
+  for (const [key, raw] of Object.entries((node.properties ?? {}) as Record<string, Node>)) {
+    const n = resolve(raw);
+    const path = prefix ? `${prefix}.${key}` : key;
+    const ex = (n.examples ?? [])[0];
+    out.push({
+      path: n.type === "array" ? `${path}[]` : path,
+      kind: kindOf(n),
+      values: n.enum,
+      text: n.description ?? "",
+      example: ex === undefined || typeof ex === "object" ? undefined : String(ex),
+      required: required.includes(key),
+    });
+    if (n.type === "array" && n.items) walk(`${path}[]`, resolve(n.items), [], out);
+    else if (n.properties) walk(path, n, n.required ?? [], out);
+  }
+};
+const GROUPS: [string, string[]][] = [
+  ["Fundamentals", ["orr_version", "id", "title", "timezone", "related_ids"]],
+  ["What was reported", ["context"]],
+  ["What the contractor says", ["work"]],
+  ["Checks", ["checks"]],
+  ["Evidence", ["evidence"]],
+  ["The resident", ["resident"]],
+  ["Still open", ["open_items"]],
+  ["Closure", ["status", "closure"]],
+  ["Later additions", ["history"]],
 ];
+const allRows: Row[] = [];
+walk("", schema as Node, (schema as Node).required, allRows);
+const top = (r: Row) => r.path.split(/[.[]/)[0]!;
+const reference = GROUPS.map(([title, keys]) => ({ title, rows: allRows.filter((r) => keys.includes(top(r))) }));
 
 const mapping = [
   ["id", "work_order_id", ""],
@@ -48,19 +78,45 @@ const mapping = [
       </div>
       <p class="small muted">JSON Schema draft 2020-12. Schema id: <code>https://openrepairrecord.com/schema/orr-0.1.schema.json</code></p>
 
-      <h2>Fields</h2>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Field</th><th>What it holds</th><th>Required</th></tr></thead>
-          <tbody>
-            {fields.map(([f, t, req]) => <tr><td><code>{f}</code></td><td>{t}</td><td>{req}</td></tr>)}
-          </tbody>
-        </table>
-      </div>
+    </div>
+
+    <h2 id="step-by-step">Build a record, step by step</h2>
+    <p class="muted" style="max-width:46rem">
+      One fictional repair, written as a file one part at a time. Scroll, and the part being explained lights up. The
+      same nine parts are the sections of the <a href="/build/">builder</a> and of the printed report.
+    </p>
+    <Walkthrough />
+
+    <div class="prose" style="max-width:860px">
+      <h2 id="reference">Field reference</h2>
+      <p>
+        Every field, with what it means. Generated from the <a href="/schema/orr-0.1.schema.json">JSON Schema</a>, so
+        this table and the schema always say the same thing. Only the fields marked <strong>required</strong> must be
+        present; everything else is written when you know it.
+      </p>
+      {reference.map((g) => (
+        <>
+          <h3>{g.title}</h3>
+          <div class="table-wrap">
+            <table class="ref">
+              <thead><tr><th>Field</th><th>Type</th><th>What it means</th></tr></thead>
+              <tbody>
+                {g.rows.map((r) => (
+                  <tr>
+                    <td><code>{r.path}</code>{r.required && <span class="req">required</span>}</td>
+                    <td class="muted">{r.kind}{r.values && <div class="vals">{r.values.map((v) => <code>{v}</code>)}</div>}</td>
+                    <td>{r.text}{r.example && <div class="ex">e.g. <code>{r.example}</code></div>}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      ))}
       <p>
         Dates are ISO 8601 as written: <code>2026-10-12</code> or <code>2026-10-12T14:20</code>, in the property's local
         time unless an offset is given. Text is free text: the format does not impose code lists beyond the few
-        choices above, which every report needs to be read the same way.
+        choices above, which every report needs so that it is read the same way.
       </p>
 
       <h2>Rules</h2>
@@ -116,3 +172,16 @@ const mapping = [
     </div>
   </div>
 </Base>
+
+<style>
+  .ref { table-layout: fixed; }
+  .ref th:nth-child(1) { width: 34%; }
+  .ref th:nth-child(2) { width: 18%; }
+  .ref td:first-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ref code { overflow-wrap: anywhere; }
+  .req { display: block; margin-top: 3px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-ink); }
+  .vals { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+  .vals code { font-size: 0.76rem; }
+  .ex { margin-top: 4px; font-size: 0.84rem; color: var(--muted); }
+  @media (max-width: 640px) { .ref td:first-child { white-space: normal; word-break: break-word; } .ref th:nth-child(1) { width: 36%; } .ref th:nth-child(2) { width: 22%; } }
+</style>

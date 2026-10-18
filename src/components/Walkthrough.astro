@@ -1,0 +1,97 @@
+---
+/**
+ * Build a record step by step: cards on the left, the file on the right growing one part at a time, with the part
+ * in view highlighted. Without JavaScript the panel shows the whole file; on small screens each card shows its part.
+ */
+import { renderSteps } from "../lib/walkthrough";
+import { exampleBySlug } from "../examples";
+import type { RepairRecord } from "../lib/record";
+
+const base = exampleBySlug("ac-no-reply")!.record;
+const record: RepairRecord = {
+  ...structuredClone(base),
+  history: [{ at: "2026-10-16T08:40", by: "Lina Haddad", kind: "note", text: "Sent this report to the owner as a PDF." }],
+};
+const steps = renderSteps(record);
+const last = steps[steps.length - 1]!;
+---
+<div class="walk" data-walk>
+  <ol class="walk-steps">
+    {steps.map((s, i) => (
+      <li class={`walk-step${i === 0 ? " is-active" : ""}`} data-step={i} id={`step-${s.id}`}>
+        <h3><span class="walk-num">{i + 1}</span>{s.title}</h3>
+        <p>{s.text}</p>
+        <pre class="walk-snippet" aria-hidden="true"><code set:html={s.snippet} /></pre>
+      </li>
+    ))}
+  </ol>
+  <div class="walk-panel" aria-label="The record file, built up step by step">
+    <div class="walk-bar"><span></span><span></span><span></span><b>Q-1204.orr.json</b></div>
+    <pre class="walk-code" tabindex="0"><code data-walk-code set:html={last.html.replaceAll('class="hl"', 'class="hl-off"')} /></pre>
+  </div>
+  <script type="application/json" data-walk-steps set:html={JSON.stringify(steps.map((s) => s.html))} />
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-walk]");
+  if (root) {
+    const htmls = JSON.parse(root.querySelector("[data-walk-steps]")!.textContent || "[]") as string[];
+    const code = root.querySelector<HTMLElement>("[data-walk-code]")!;
+    const pre = code.parentElement as HTMLElement;
+    const cards = [...root.querySelectorAll<HTMLElement>("[data-step]")];
+    let current = -1;
+    const show = (i: number) => {
+      if (i === current) return;
+      current = i;
+      cards.forEach((c, j) => c.classList.toggle("is-active", j === i));
+      code.innerHTML = htmls[i] ?? "";
+      const hl = code.querySelector<HTMLElement>(".hl");
+      if (hl) pre.scrollTo({ top: Math.max(0, hl.offsetTop - 24), behavior: "smooth" });
+    };
+    show(0);
+    const visible = new Map<number, number>();
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) visible.set(Number((e.target as HTMLElement).dataset.step), e.intersectionRatio);
+        let best = current, bestRatio = 0;
+        for (const [i, r] of visible) if (r > bestRatio) { best = i; bestRatio = r; }
+        if (bestRatio > 0) show(best);
+      },
+      { rootMargin: "-35% 0px -45% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] },
+    );
+    cards.forEach((c) => io.observe(c));
+    cards.forEach((c, i) => c.addEventListener("click", () => show(i)));
+  }
+</script>
+
+<style>
+  .walk { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; margin: 1.5rem 0 1rem; }
+  .walk-steps, .walk-step, .walk-snippet { min-width: 0; }
+  @media (min-width: 960px) { .walk { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 40px; align-items: start; } }
+  .walk-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  @media (min-width: 960px) { .walk-steps { gap: 18px; padding-bottom: 30vh; } }
+  .walk-step { background: var(--paper); border: 1px solid var(--line); border-left: 3px solid var(--line); border-radius: 10px; padding: 16px 18px; cursor: pointer; transition: background 0.15s, border-color 0.15s; }
+  .walk-step h3 { margin: 0 0 6px; font-size: 1.05rem; display: flex; align-items: center; gap: 10px; }
+  .walk-step p { margin: 0; color: var(--ink-2); font-size: 0.95rem; }
+  .walk-step.is-active { background: var(--accent-soft); border-color: #bcdcd2; border-left-color: var(--accent); }
+  .walk-step.is-active h3 { color: var(--accent-ink); }
+  .walk-num { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--paper); border: 1px solid var(--line-2); font-size: 0.78rem; font-weight: 700; color: var(--ink-2); flex: none; }
+  .walk-step.is-active .walk-num { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .walk-snippet { margin: 12px 0 0; font-size: 0.76rem; max-height: 260px; overflow: auto; }
+  @media (min-width: 960px) { .walk-snippet { display: none; } }
+  .walk-panel { display: none; }
+  @media (min-width: 960px) {
+    .walk-panel { display: block; position: sticky; top: 24px; background: #0f1714; border-radius: 12px; box-shadow: 0 10px 30px rgb(16 24 20 / 18%); overflow: hidden; }
+  }
+  .walk-bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; background: #18221e; border-bottom: 1px solid #22302a; }
+  .walk-bar span { width: 11px; height: 11px; border-radius: 50%; background: #3a4a43; }
+  .walk-bar span:nth-child(1) { background: #ef5f57; } .walk-bar span:nth-child(2) { background: #f5bd2f; } .walk-bar span:nth-child(3) { background: #28c840; }
+  .walk-bar b { margin-left: 8px; font: 500 0.8rem var(--mono); color: #9fb3aa; }
+  .walk-code { margin: 0; border-radius: 0; background: transparent; height: min(70vh, 620px); overflow: auto; font-size: 0.8rem; line-height: 1.55; padding: 14px 0; }
+  .walk-code :global(code), .walk-snippet :global(code) { display: block; padding: 0 18px; color: #7f948b; }
+  .walk :global(.hl) { display: inline-block; box-sizing: border-box; width: calc(100% + 36px); margin: 0 -18px; padding: 0 18px; background: rgb(14 107 88 / 32%); box-shadow: inset 3px 0 0 #3fbf9b; color: #dfeae5; }
+  .walk :global(.hl .k), .walk-snippet :global(.k) { color: #8fd3bf; }
+  .walk :global(.hl .s), .walk-snippet :global(.s) { color: #f2d7a4; }
+  .walk :global(.hl .n), .walk-snippet :global(.n) { color: #f0a6a0; }
+  .walk-snippet :global(code) { color: #dfeae5; }
+</style>

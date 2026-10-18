@@ -11,6 +11,9 @@ interface Props {
 }
 
 const { title, description, noindex = false, section } = Astro.props;
+// Cloudflare Web Analytics: cookie-less, aggregated page views. Empty = no beacon on the page. If you change this,
+// keep the privacy page (src/pages/privacy.astro) in step.
+const CF_BEACON_TOKEN = "";
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const fullTitle = title === "Open Repair Record" ? title : `${title} · Open Repair Record`;
 const nav = [
@@ -71,7 +74,7 @@ const nav = [
           <p style="margin:0 0 8px;color:var(--ink-2);font-weight:650">Open Repair Record</p>
           <p style="margin:0 0 8px">
             An open guide and a free tool for writing down what a completed repair actually means. No account, and
-            nothing leaves your browser.
+            what you type never leaves your browser.
           </p>
           <p style="margin:0">
             Initiated by the <a href="https://pmfriend.com/">PMFriend</a> team. Text and examples:
@@ -99,5 +102,8 @@ const nav = [
         </div>
       </div>
     </footer>
+    {CF_BEACON_TOKEN && (
+      <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: CF_BEACON_TOKEN })}></script>
+    )}
   </body>
 </html>

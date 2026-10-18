@@ -173,3 +173,17 @@ test("no page scrolls sideways on a phone", async ({ page }, info) => {
     expect(overflow, path).toBeLessThanOrEqual(0);
   }
 });
+
+test("format page: the walkthrough highlights the part in view, and the reference comes from the schema", async ({ page }, info) => {
+  await page.goto("/format/");
+  await expect(page.locator(".ref code", { hasText: "resident.status" }).first()).toBeVisible();
+  await expect(page.locator(".ref")).toContainText(["no_reply: asked and nothing came back"]);
+  test.skip(info.project.name !== "desktop", "the sticky file panel is desktop only");
+  // Bring the card into the band the page watches (about 40% down the screen).
+  await page.evaluate(() => {
+    const el = document.getElementById("step-resident")!;
+    window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.4);
+  });
+  await expect(page.locator("#step-resident")).toHaveClass(/is-active/);
+  await expect(page.locator("[data-walk-code] .hl").first()).toContainText('"resident"');
+});

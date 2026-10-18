@@ -2,75 +2,176 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://openrepairrecord.com/schema/orr-0.1.schema.json",
   "title": "Open Repair Record 0.1",
-  "description": "One repair record: what was reported, what the contractor says was done, what was checked and by whom, the resident's answer, open items, who closed the record and why, and later additions. Each source stays separate; there is no single 'done' flag. Licence: MIT.",
+  "description": "One repair record: what was reported, what the contractor says was done, what was checked and by whom, the resident's answer, what is still open, who closed the record and why, and later additions. Each source of information stays separate; there is no single 'done' flag. Licence: MIT.",
   "type": "object",
   "required": ["orr_version", "context", "work", "checks", "evidence", "resident", "open_items", "status", "history"],
   "additionalProperties": false,
   "properties": {
-    "orr_version": { "const": "0.1" },
-    "id": { "type": "string", "description": "The operator's own reference, such as a ticket or job number." },
-    "title": { "type": "string" },
-    "timezone": { "type": "string", "description": "IANA time zone of the property, e.g. Asia/Qatar." },
+    "orr_version": {
+      "const": "0.1",
+      "description": "The version of this format. Always \"0.1\" for files written against this schema, so a reader knows which rules apply."
+    },
+    "id": {
+      "type": "string",
+      "description": "Your own reference for the job: the ticket, work order or job card number in your system. Lets anyone match the record to the original job.",
+      "examples": ["Q-1204", "WO-2026-00871"]
+    },
+    "title": {
+      "type": "string",
+      "description": "A short, human title for the record. Optional: the report falls back to the symptom.",
+      "examples": ["AC dripping water"]
+    },
+    "timezone": {
+      "type": "string",
+      "description": "IANA time zone of the property, when the dates need it to be unambiguous. Dates without an offset are read in this zone.",
+      "examples": ["Asia/Qatar", "Australia/Brisbane"]
+    },
     "related_ids": {
       "type": "array",
       "items": { "type": "string" },
-      "description": "Other records about the same problem, such as an earlier job that was closed."
+      "description": "Other records about the same problem, such as an earlier job that was closed and came back.",
+      "examples": [["Q-0988"]]
     },
     "context": {
       "type": "object",
       "additionalProperties": false,
+      "description": "What was reported: where, when, by whom, and the symptom in the reporter's own words. The diagnosis does not go here; it belongs to the contractor's statement.",
       "properties": {
-        "location": { "type": "string", "description": "Building and unit, or the common area." },
-        "area": { "enum": ["unit", "common_area"] },
-        "asset": { "type": "string", "description": "Asset tag or plain label of the equipment, if known." },
-        "reported_at": { "$ref": "#/$defs/date" },
-        "reported_by_role": { "enum": ["resident", "owner", "staff", "inspection", "other"] },
-        "symptom": { "type": "string", "description": "What was reported, in the reporter's terms. Not the diagnosis." }
+        "location": {
+          "type": "string",
+          "description": "Where the problem is: the building and unit, or the common area.",
+          "examples": ["Tower 2, Apartment 1204", "Tower 2, lobby"]
+        },
+        "area": {
+          "enum": ["unit", "common_area"],
+          "description": "unit: inside one home, where a resident can be asked. common_area: lobby, plant room, car park, lifts; nobody to ask, so the resident's answer is not_applicable."
+        },
+        "asset": {
+          "type": "string",
+          "description": "The equipment, if known: an asset tag from your register or a plain label. Lets repeat faults on the same equipment be found later.",
+          "examples": ["Split AC, living room", "AHU-03"]
+        },
+        "reported_at": {
+          "$ref": "#/$defs/date",
+          "description": "When the problem was reported."
+        },
+        "reported_by_role": {
+          "enum": ["resident", "owner", "staff", "inspection", "other"],
+          "description": "Who reported it: the resident, the owner, your own staff, a planned inspection, or someone else."
+        },
+        "symptom": {
+          "type": "string",
+          "description": "What was reported, in the reporter's terms. Keep it as reported: if the fault comes back, this is what you compare against.",
+          "examples": ["Water is dripping from the AC in the living room."]
+        }
       }
     },
     "work": {
       "type": "array",
-      "description": "Contractor statements, oldest first.",
+      "description": "What the contractor says, one entry per visit or report of work, oldest first. Each entry is a statement with a name and a time, not a verdict.",
       "items": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "by": { "$ref": "#/$defs/person" },
-          "at": { "$ref": "#/$defs/date" },
-          "done": { "type": "string", "description": "What the contractor says was done." },
-          "diagnosis": { "type": "string", "description": "The contractor's view of the cause." },
-          "outcome": { "enum": ["resolved", "temporary_fix", "partial", "not_done", "no_access"] },
-          "follow_up_needed": { "type": "boolean" },
-          "follow_up": { "type": "string" }
+          "by": {
+            "$ref": "#/$defs/person",
+            "description": "Who made the statement: the technician, and their company."
+          },
+          "at": {
+            "$ref": "#/$defs/date",
+            "description": "When the work was done, or when the statement was made."
+          },
+          "done": {
+            "type": "string",
+            "description": "What the contractor says was done, in their words.",
+            "examples": ["Cleared the blocked condensate drain, then ran the unit for 15 minutes."]
+          },
+          "diagnosis": {
+            "type": "string",
+            "description": "The contractor's view of the cause, if known.",
+            "examples": ["Blocked condensate drain."]
+          },
+          "outcome": {
+            "enum": ["resolved", "temporary_fix", "partial", "not_done", "no_access"],
+            "description": "The outcome the contractor reports. resolved: they believe the fault is fixed. temporary_fix: the symptom is stopped, the real repair is still to come. partial: some of the work is done. not_done: they came but could not do it. no_access: nobody let them in."
+          },
+          "follow_up_needed": {
+            "type": "boolean",
+            "description": "True when the contractor says another visit or more work is needed."
+          },
+          "follow_up": {
+            "type": "string",
+            "description": "What that follow-up is.",
+            "examples": ["Fit the new drain pan when it arrives."]
+          }
         }
       }
     },
     "checks": {
       "type": "array",
+      "description": "Anything someone did to confirm the work, oldest first. Each check says who, how, what they found, and what they did not cover. Empty when nobody checked: that is allowed, and the report says so.",
       "items": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "by_role": { "enum": ["technician", "coordinator", "inspector", "resident", "other"] },
-          "by_name": { "type": "string" },
-          "at": { "$ref": "#/$defs/date" },
-          "method": { "enum": ["test_run", "measurement", "visual", "photo_review", "other"] },
-          "result": { "type": "string", "description": "What the check found." },
-          "limits": { "type": "string", "description": "What the check did not cover." }
+          "by_role": {
+            "enum": ["technician", "coordinator", "inspector", "resident", "other"],
+            "description": "Who checked: the technician themselves, your coordinator, an inspector, the resident, or someone else."
+          },
+          "by_name": {
+            "type": "string",
+            "description": "The name of the person who checked."
+          },
+          "at": {
+            "$ref": "#/$defs/date",
+            "description": "When the check was done."
+          },
+          "method": {
+            "enum": ["test_run", "measurement", "visual", "photo_review", "other"],
+            "description": "How it was checked: running the equipment, measuring something, looking at it, reviewing a photo, or another way."
+          },
+          "result": {
+            "type": "string",
+            "description": "What the check found.",
+            "examples": ["Ran the unit for 15 minutes: no water leaked while watching."]
+          },
+          "limits": {
+            "type": "string",
+            "description": "What the check did not cover. As useful as the result: it tells the reader where the knowledge stops.",
+            "examples": ["Did not inspect the unit.", "15 minutes only."]
+          }
         }
       }
     },
     "evidence": {
       "type": "array",
+      "description": "What backs a statement or a check: photos, measurements, test logs, certificates. Never required. The record lists them; it does not store or upload them.",
       "items": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "type": { "enum": ["photo", "measurement", "test_log", "certificate", "document", "other"] },
-          "description": { "type": "string" },
-          "taken_by": { "type": "string" },
-          "taken_at": { "$ref": "#/$defs/date" },
-          "reference": { "type": "string", "description": "A file name or a link. Nothing is uploaded." }
+          "type": {
+            "enum": ["photo", "measurement", "test_log", "certificate", "document", "other"],
+            "description": "What kind of evidence it is."
+          },
+          "description": {
+            "type": "string",
+            "description": "What it shows. A photo shows what it shows; say what that is.",
+            "examples": ["The drain line after cleaning."]
+          },
+          "taken_by": {
+            "type": "string",
+            "description": "Who made it."
+          },
+          "taken_at": {
+            "$ref": "#/$defs/date",
+            "description": "When it was made."
+          },
+          "reference": {
+            "type": "string",
+            "description": "A file name or a link to where it is kept. Nothing is uploaded.",
+            "examples": ["Q-1204-drain.jpg"]
+          }
         }
       }
     },
@@ -78,44 +179,95 @@
       "type": "object",
       "required": ["status"],
       "additionalProperties": false,
+      "description": "The resident's answer to one question: is the problem they reported solved, in their view?",
       "properties": {
         "status": {
           "enum": ["resolved", "not_resolved", "not_asked", "pending", "no_reply", "not_applicable"],
-          "description": "no_reply stays no_reply: silence is never a confirmation."
+          "description": "resolved: they say it is solved. not_resolved: they say it is not. not_asked: nobody asked yet. pending: asked, waiting for an answer. no_reply: asked and nothing came back; stays no_reply, silence is never a confirmation. not_applicable: there is no resident to ask (common areas)."
         },
-        "asked_at": { "$ref": "#/$defs/date" },
-        "answered_at": { "$ref": "#/$defs/date" },
-        "words": { "type": "string", "description": "The resident's own words, verbatim." },
-        "channel": { "type": "string" }
+        "asked_at": {
+          "$ref": "#/$defs/date",
+          "description": "When the resident was asked. This is what makes no_reply meaningful."
+        },
+        "answered_at": {
+          "$ref": "#/$defs/date",
+          "description": "When the resident answered."
+        },
+        "words": {
+          "type": "string",
+          "description": "The resident's own words, quoted as written.",
+          "examples": ["It's dripping again, same place."]
+        },
+        "channel": {
+          "type": "string",
+          "description": "How they were asked or answered.",
+          "examples": ["WhatsApp", "Phone", "E-mail"]
+        }
       }
     },
     "open_items": {
       "type": "array",
+      "description": "Anything still left to do. A temporary fix or partial work needs at least one entry, with an owner and a date.",
       "items": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "what": { "type": "string" },
-          "owner": { "type": "string" },
-          "next_step": { "type": "string" },
-          "due": { "$ref": "#/$defs/date" }
+          "what": {
+            "type": "string",
+            "description": "What is still open.",
+            "examples": ["Fit the new drain pan."]
+          },
+          "owner": {
+            "type": "string",
+            "description": "Who owns it.",
+            "examples": ["Ravi Kumar, Bluepoint Cooling"]
+          },
+          "next_step": {
+            "type": "string",
+            "description": "The next concrete step."
+          },
+          "due": {
+            "$ref": "#/$defs/date",
+            "description": "By when."
+          }
         }
       }
     },
-    "status": { "enum": ["open", "closed"] },
-    "closure": { "$ref": "#/$defs/closure" },
+    "status": {
+      "enum": ["open", "closed"],
+      "description": "Whether the record is open or closed. Closing is a decision someone takes; the closure says who and why."
+    },
+    "closure": {
+      "$ref": "#/$defs/closure",
+      "description": "Present only while the record is closed: who closed it, when, and why."
+    },
     "history": {
       "type": "array",
-      "description": "Later additions, oldest first. Earlier entries are never rewritten.",
+      "description": "Later additions, oldest first: a late reply, a revisit, a correction, a reopening. Earlier entries are never rewritten; changes are added here.",
       "items": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "at": { "$ref": "#/$defs/date" },
-          "by": { "type": "string" },
-          "kind": { "enum": ["resident_reply", "revisit", "correction", "reopened", "note"] },
-          "text": { "type": "string" },
-          "previous_closure": { "$ref": "#/$defs/closure" }
+          "at": {
+            "$ref": "#/$defs/date",
+            "description": "When this was added."
+          },
+          "by": {
+            "type": "string",
+            "description": "Who added it."
+          },
+          "kind": {
+            "enum": ["resident_reply", "revisit", "correction", "reopened", "note"],
+            "description": "resident_reply: an answer that came in later. revisit: another visit. correction: a fix to something written earlier, without rewriting it. reopened: a closed record was opened again. note: anything else."
+          },
+          "text": {
+            "type": "string",
+            "description": "What the addition says."
+          },
+          "previous_closure": {
+            "$ref": "#/$defs/closure",
+            "description": "For reopened: the closure that was in force before, kept exactly as it was."
+          }
         }
       }
     }
@@ -126,27 +278,35 @@
     "date": {
       "type": "string",
       "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}(:\\d{2}(\\.\\d+)?)?(Z|[+-]\\d{2}:\\d{2})?)?$",
-      "description": "ISO 8601 date, or date and time (local time of the property unless an offset is given)."
+      "description": "ISO 8601 date, or date and time, as written: 2026-10-12 or 2026-10-12T14:20. Local time of the property unless an offset is given.",
+      "examples": ["2026-10-11T10:30", "2026-10-24"]
     },
     "person": {
       "type": "object",
       "additionalProperties": false,
+      "description": "A person, and where useful their company and role.",
       "properties": {
-        "name": { "type": "string" },
-        "company": { "type": "string" },
-        "role": { "type": "string" }
+        "name": { "type": "string", "description": "The person's name." },
+        "company": { "type": "string", "description": "Their company." },
+        "role": { "type": "string", "description": "Their role, e.g. AC technician or maintenance coordinator." }
       }
     },
     "closure": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Who closed the record, when, and why.",
       "properties": {
-        "closed_by": { "$ref": "#/$defs/person" },
-        "closed_at": { "$ref": "#/$defs/date" },
+        "closed_by": { "$ref": "#/$defs/person", "description": "Who closed it." },
+        "closed_at": { "$ref": "#/$defs/date", "description": "When it was closed." },
         "reason_code": {
-          "enum": ["confirmed_by_resident", "work_reported_done_no_reply", "administrative", "duplicate", "cancelled", "other"]
+          "enum": ["confirmed_by_resident", "work_reported_done_no_reply", "administrative", "duplicate", "cancelled", "other"],
+          "description": "Why. confirmed_by_resident: the resident said it is solved (needs resident.status resolved). work_reported_done_no_reply: the contractor reported it done and the resident did not answer. administrative: closed for an organisational reason, explained in reason. duplicate: the same problem is tracked in another record. cancelled: the job was cancelled. other: explained in reason."
         },
-        "reason": { "type": "string" }
+        "reason": {
+          "type": "string",
+          "description": "The reason in your own words.",
+          "examples": ["Work reported as done. Asked the resident on 11 Oct; no reply after four days."]
+        }
       }
     }
   }
