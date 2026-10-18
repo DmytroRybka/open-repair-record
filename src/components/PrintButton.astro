@@ -1,0 +1,4 @@
+<button class="btn" type="button" data-print>Print or save as PDF</button>
+<script>
+  document.querySelectorAll<HTMLButtonElement>("[data-print]").forEach((b) => b.addEventListener("click", () => window.print()));
+</script>

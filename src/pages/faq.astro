@@ -1,0 +1,41 @@
+---
+import Base from "../layouts/Base.astro";
+
+const faq = [
+  ["Is this an official standard?",
+    "No. It is an open guide, a template and a small file format, offered for anyone to use. It becomes more than that only if operators and software vendors find it useful and adopt it independently. Where existing housing data models already cover something, the format page says so."],
+  ["What does it cost?",
+    "Nothing. There is no account, no trial and no paid tier. The text is CC BY 4.0 and the code and schema are MIT, so you can copy, change and build on them, including commercially."],
+  ["Where does my data go?",
+    "Nowhere. The builder runs in your browser. Your draft is kept in this browser's local storage until you clear it; files you open or download are read and written on your device. Nothing is sent to us or anyone else."],
+  ["Why is a photo not required?",
+    "Because for many jobs a photo proves very little, and a rule that refuses a report without one mostly produces meaningless photos. Add photos when they show something useful, and say what they show."],
+  ["The resident didn't answer. Can I still close the job?",
+    "Yes, if that is the right decision. Record \"no reply\" with the date you asked, and close with the reason \"work reported done, no reply from the resident\". What the record should never do is show a confirmation that nobody gave."],
+  ["Does it work for common areas?",
+    "Yes. Choose \"a common area\" and set the resident's answer to \"not applicable\". For common areas the check usually matters more than anyone's answer."],
+  ["Can I use it with my own software?",
+    "Yes. Export a record as JSON, validate it against the schema, and import it anywhere. If you build Open Repair Record export into your product, you are welcome to say so."],
+  ["Will there be an Arabic version?",
+    "We plan a bilingual English and Arabic report, reviewed by a native speaker who knows local maintenance terms. Not machine translation alone."],
+  ["What about AI?",
+    "There is none in the builder today. A later version may help turn a technician's note into a draft, with each statement linked to its source and a person confirming it. It will never invent a test or read a resident's silence as a yes."],
+  ["Who is behind it?",
+    "It was initiated by the team behind PMFriend, which builds maintenance software. The guide and the tool are deliberately useful without PMFriend: no login, no PMFriend footer on your reports, and competitors are free to use and implement it."],
+];
+---
+<Base title="Questions" description="Is this an official standard? What does it cost? Where does my data go? Answers to common questions about Open Repair Record.">
+  <div class="wrap page-head">
+    <div class="prose">
+      <p class="eyebrow">Questions</p>
+      <h1>Questions and answers</h1>
+      {faq.map(([q, a]) => (
+        <section>
+          <h3>{q}</h3>
+          <p>{a}</p>
+        </section>
+      ))}
+      <p style="margin-top:32px">Something else? Write to <a href="mailto:support@pmfriend.com">support@pmfriend.com</a>.</p>
+    </div>
+  </div>
+</Base>

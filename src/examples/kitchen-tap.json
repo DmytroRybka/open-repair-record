@@ -1,0 +1,55 @@
+{
+  "orr_version": "0.1",
+  "id": "R-2041",
+  "title": "Dripping kitchen tap",
+  "context": {
+    "location": "Harbour View, Flat 2B",
+    "area": "unit",
+    "reported_at": "2026-10-05T09:12",
+    "reported_by_role": "resident",
+    "symptom": "The kitchen tap keeps dripping, even when it is turned off hard."
+  },
+  "work": [
+    {
+      "by": { "name": "Sam Okafor", "company": "Northline Plumbing", "role": "Plumber" },
+      "at": "2026-10-06T10:40",
+      "done": "Replaced the worn tap cartridge, turned the water back on and opened and closed the tap.",
+      "diagnosis": "Worn ceramic cartridge.",
+      "outcome": "resolved"
+    }
+  ],
+  "checks": [
+    {
+      "by_role": "technician",
+      "by_name": "Sam Okafor",
+      "at": "2026-10-06T10:55",
+      "method": "test_run",
+      "result": "Opened and closed the tap ten times, then watched it for 10 minutes: no drip.",
+      "limits": "Checked the kitchen tap only."
+    }
+  ],
+  "evidence": [
+    {
+      "type": "photo",
+      "description": "The tap after the repair, turned off, not dripping.",
+      "taken_by": "Sam Okafor",
+      "taken_at": "2026-10-06T10:56",
+      "reference": "R-2041-after.jpg"
+    }
+  ],
+  "resident": {
+    "status": "resolved",
+    "asked_at": "2026-10-06T12:00",
+    "answered_at": "2026-10-06T18:31",
+    "words": "Yes, it's fixed. Thank you!",
+    "channel": "WhatsApp"
+  },
+  "open_items": [],
+  "status": "closed",
+  "closure": {
+    "closed_by": { "name": "Lina Haddad", "role": "Maintenance coordinator" },
+    "closed_at": "2026-10-07T08:30",
+    "reason_code": "confirmed_by_resident"
+  },
+  "history": []
+}

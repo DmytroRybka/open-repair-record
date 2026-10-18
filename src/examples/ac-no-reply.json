@@ -1,0 +1,69 @@
+{
+  "orr_version": "0.1",
+  "id": "Q-1204",
+  "title": "AC dripping water",
+  "context": {
+    "location": "Tower 2, Apartment 1204",
+    "area": "unit",
+    "asset": "Split AC, living room",
+    "reported_at": "2026-10-10T16:05",
+    "reported_by_role": "resident",
+    "symptom": "Water is dripping from the AC in the living room."
+  },
+  "work": [
+    {
+      "by": { "name": "Ravi Kumar", "company": "Bluepoint Cooling", "role": "AC technician" },
+      "at": "2026-10-11T10:30",
+      "done": "Cleared the blocked condensate drain, then ran the unit for 15 minutes and watched it: no leak during that time.",
+      "diagnosis": "Blocked condensate drain.",
+      "outcome": "resolved"
+    }
+  ],
+  "checks": [
+    {
+      "by_role": "technician",
+      "by_name": "Ravi Kumar",
+      "at": "2026-10-11T10:50",
+      "method": "test_run",
+      "result": "Ran the unit for 15 minutes: no water leaked while watching.",
+      "limits": "15 minutes only."
+    },
+    {
+      "by_role": "coordinator",
+      "by_name": "Lina Haddad",
+      "at": "2026-10-11T14:00",
+      "method": "photo_review",
+      "result": "The technician's photo and test note are on file.",
+      "limits": "Did not inspect the unit."
+    }
+  ],
+  "evidence": [
+    {
+      "type": "photo",
+      "description": "The drain line after cleaning.",
+      "taken_by": "Ravi Kumar",
+      "taken_at": "2026-10-11T10:48",
+      "reference": "Q-1204-drain.jpg"
+    },
+    {
+      "type": "test_log",
+      "description": "Technician's note: 15-minute test run, no leak seen.",
+      "taken_by": "Ravi Kumar",
+      "taken_at": "2026-10-11T10:50"
+    }
+  ],
+  "resident": {
+    "status": "no_reply",
+    "asked_at": "2026-10-11T14:05",
+    "channel": "WhatsApp"
+  },
+  "open_items": [],
+  "status": "closed",
+  "closure": {
+    "closed_by": { "name": "Lina Haddad", "role": "Maintenance coordinator" },
+    "closed_at": "2026-10-15T09:00",
+    "reason_code": "work_reported_done_no_reply",
+    "reason": "Work reported as done. Asked the resident on 11 Oct; no reply after four days."
+  },
+  "history": []
+}

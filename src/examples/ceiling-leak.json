@@ -1,0 +1,64 @@
+{
+  "orr_version": "0.1",
+  "id": "R-2057",
+  "title": "Water through the bathroom ceiling",
+  "context": {
+    "location": "Harbour View, Flat 3A",
+    "area": "unit",
+    "reported_at": "2026-10-08T07:45",
+    "reported_by_role": "resident",
+    "symptom": "Water is dripping from the bathroom ceiling, near the light."
+  },
+  "work": [
+    {
+      "by": { "name": "Sam Okafor", "company": "Northline Plumbing", "role": "Plumber" },
+      "at": "2026-10-08T11:20",
+      "done": "Found a leaking waste pipe joint under the bath in Flat 4A, above, and resealed it. The stained ceiling in 3A was not repaired.",
+      "diagnosis": "Leaking waste pipe joint under the bath in the flat above (4A).",
+      "outcome": "temporary_fix",
+      "follow_up_needed": true,
+      "follow_up": "Repair the ceiling in 3A once it has dried out."
+    }
+  ],
+  "checks": [
+    {
+      "by_role": "technician",
+      "by_name": "Sam Okafor",
+      "at": "2026-10-08T11:50",
+      "method": "test_run",
+      "result": "Ran the bath in 4A for 5 minutes: no new water came through the ceiling in 3A.",
+      "limits": "The ceiling board was not opened, so hidden damage was not checked."
+    }
+  ],
+  "evidence": [
+    {
+      "type": "photo",
+      "description": "Stained ceiling in the 3A bathroom, before the work.",
+      "taken_by": "Sam Okafor",
+      "taken_at": "2026-10-08T11:05",
+      "reference": "R-2057-ceiling.jpg"
+    },
+    {
+      "type": "photo",
+      "description": "The resealed joint under the bath in 4A.",
+      "taken_by": "Sam Okafor",
+      "taken_at": "2026-10-08T11:45",
+      "reference": "R-2057-joint.jpg"
+    }
+  ],
+  "resident": {
+    "status": "pending",
+    "asked_at": "2026-10-08T13:00",
+    "channel": "WhatsApp"
+  },
+  "open_items": [
+    {
+      "what": "Repair and repaint the bathroom ceiling in 3A.",
+      "owner": "Lina Haddad, coordinator",
+      "next_step": "Check that the ceiling is dry, then book the decorator.",
+      "due": "2026-10-22"
+    }
+  ],
+  "status": "open",
+  "history": []
+}

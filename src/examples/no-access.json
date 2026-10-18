@@ -1,0 +1,37 @@
+{
+  "orr_version": "0.1",
+  "id": "R-2063",
+  "title": "Bedroom door lock sticks",
+  "context": {
+    "location": "Harbour View, Flat 1C",
+    "area": "unit",
+    "reported_at": "2026-10-12T08:20",
+    "reported_by_role": "resident",
+    "symptom": "The bedroom door lock sticks and the key is hard to turn."
+  },
+  "work": [
+    {
+      "by": { "name": "Omar Saleh", "company": "Keystone Locks", "role": "Locksmith" },
+      "at": "2026-10-13T15:00",
+      "done": "Came at the agreed time; nobody answered. Left a card under the door.",
+      "outcome": "no_access",
+      "follow_up_needed": true,
+      "follow_up": "Agree a new visit time with the resident."
+    }
+  ],
+  "checks": [],
+  "evidence": [],
+  "resident": {
+    "status": "not_asked"
+  },
+  "open_items": [
+    {
+      "what": "Repair the bedroom door lock.",
+      "owner": "Lina Haddad, coordinator",
+      "next_step": "Called the resident on 13 Oct to agree a new time; waiting to hear back.",
+      "due": "2026-10-16"
+    }
+  ],
+  "status": "open",
+  "history": []
+}

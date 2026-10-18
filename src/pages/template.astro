@@ -1,0 +1,49 @@
+---
+import Base from "../layouts/Base.astro";
+import PrintButton from "../components/PrintButton.astro";
+
+const sections = [
+  ["1 · What was reported", ["Job or ticket number", "Where (building and unit, or common area)", "Equipment, if known", "Reported on, and by whom", "What was reported, in the reporter's words"]],
+  ["2 · What the contractor says", ["Name, company, role", "When", "Outcome: resolved / temporary fix / partly done / not done / no access", "What was done", "Cause, if known", "Follow-up needed"]],
+  ["3 · Checks", ["Who checked, and how (test run / measurement / looked at it / reviewed a photo)", "When", "What the check found", "What it did not cover"]],
+  ["4 · Evidence", ["Type, file name or link", "What it shows, taken by, when"]],
+  ["5 · The resident", ["Answer: resolved / not resolved / not asked yet / waiting / no reply / not applicable", "Asked on, answered on, channel", "The resident's words"]],
+  ["6 · Still open", ["What is open, owner, next step, due date"]],
+  ["7 · Closure", ["Closed by, role, when", "Why: confirmed by the resident / work reported done, no reply / administrative / duplicate / cancelled / other", "Reason in your words"]],
+  ["8 · Later additions", ["When, by whom, what (a late reply, a revisit, a correction)"]],
+] as const;
+---
+<Base title="Blank template" description="A blank, printable Open Repair Record template for contractors and coordinators who prefer paper." section="build">
+  <div class="wrap page-head">
+    <div class="no-print">
+      <p class="eyebrow">Blank template</p>
+      <h1>Print it, or save it as PDF</h1>
+      <p class="lead">For a job sheet, a clipboard, or a contractor who prefers paper. The same eight parts as the builder.</p>
+      <div class="btn-row" style="margin:20px 0 28px"><PrintButton /><a class="btn btn-quiet" href="/build/">Use the builder instead</a></div>
+    </div>
+    <article class="report template">
+      <header class="report-head">
+        <div>
+          <div class="report-kicker">Repair record</div>
+          <h2>Repair completion report</h2>
+        </div>
+        <div class="report-status"><span class="status-pill status-closed">Open / Closed</span></div>
+      </header>
+      {sections.map(([title, lines]) => (
+        <section>
+          <h3>{title}</h3>
+          {lines.map((l) => <div class="line"><span>{l}</span></div>)}
+        </section>
+      ))}
+      <footer class="report-foot">
+        <span>Open Repair Record 0.1 · openrepairrecord.com · CC BY 4.0</span>
+        <span>No reply stays no reply. This record is not a safety certificate or an inspection.</span>
+      </footer>
+    </article>
+  </div>
+</Base>
+<style>
+  .template .line { border-bottom: 1px solid var(--line-2); min-height: 30px; padding-top: 12px; font-size: 0.78rem; color: var(--muted); }
+  .template section { margin-top: 14px; }
+  @media print { .template .line { min-height: 26px; } }
+</style>

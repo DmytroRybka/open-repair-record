@@ -1,0 +1,113 @@
+---
+import Base from "../layouts/Base.astro";
+import { EXAMPLES } from "../examples";
+
+const parts = [
+  ["What was reported", "Where, when, and the symptom in the reporter's words. Kept apart from the diagnosis."],
+  ["What the contractor says", "Who reported the work, what they did, the outcome they claim, and anything left unfinished."],
+  ["Checks and evidence", "Who checked, how, what they found, and what the check did not cover. Photos or test logs, if any."],
+  ["The resident's answer", "Resolved, not resolved, not asked, waiting, no reply, or not applicable. Never assumed."],
+  ["Who closed it, and why", "The person who closed the record, the reason, and what still needs following up."],
+  ["Later additions", "A late reply, a revisit or a correction is added. Nothing earlier is rewritten."],
+];
+
+const principles = [
+  ["Keep each source separate", "A contractor's statement, a coordinator's check and a resident's answer are different things. The record says who said what."],
+  ["No reply means no reply", "Silence is never turned into a confirmation, however long it lasts."],
+  ["A temporary fix is not a fix", "If something is left to do, it gets an owner and a date, and the record stays honest about it."],
+  ["Say what a check did not cover", "\"Ran it for 15 minutes\" and \"did not inspect the unit\" are both useful."],
+  ["Add, don't rewrite", "Corrections and reopenings are new entries. The earlier version stays readable."],
+  ["A record is not a certificate", "It documents claims and checks. It does not certify safety or quality, and a photo is never required."],
+];
+---
+<Base
+  title="Open Repair Record"
+  description="What does a completed repair actually mean? An open guide and a free tool for writing a clear repair completion report: what was done, what was checked, and whether the resident's problem is solved."
+>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">An open guide and a free tool</p>
+      <h1 style="max-width:16em">What does a completed repair actually mean?</h1>
+      <p class="lead">
+        The contractor closes the job. But what was done, what was checked, and is the resident's problem actually
+        solved? Open Repair Record is a simple, shared way to write that down, so anyone can read it, in any system.
+      </p>
+      <div class="btn-row" style="margin-top:24px">
+        <a class="btn btn-primary" href="/build/">Create a repair completion report</a>
+        <a class="btn" href="/guide/">Read the guide</a>
+      </div>
+      <p class="small muted" style="margin-top:14px">Free, no account, and nothing leaves your browser. Print it, save it as PDF, or send it on WhatsApp.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 style="margin-top:0">One record, six parts</h2>
+      <p class="muted" style="max-width:44rem">
+        A good completion report keeps each source of information apart. There is no single "done" box to tick.
+      </p>
+      <div class="grid grid-3" style="margin-top:20px">
+        {parts.map(([title, text], i) => (
+          <div class="card">
+            <div class="part-num">{i + 1}</div>
+            <h3>{title}</h3>
+            <p class="muted" style="margin:0">{text}</p>
+          </div>
+        ))}
+      </div>
+      <p style="margin-top:18px"><a href="/guide/parts/">The six parts in detail →</a></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Five worked examples</h2>
+      <p class="muted" style="max-width:44rem">Fictional repairs that show the hard cases: a temporary fix, a resident who never answers, a fault that comes back, and a visit with no access.</p>
+      <div class="grid grid-3" style="margin-top:20px">
+        {EXAMPLES.map((e) => (
+          <a class="card card-link" href={`/examples/${e.slug}/`}>
+            <h3>{e.name}</h3>
+            <p class="muted">{e.lesson}</p>
+            <span class="more">See the report →</span>
+          </a>
+        ))}
+        <a class="card card-link" href="/build/" style="background:var(--accent-soft);border-color:#bcdcd2">
+          <h3>Your own repair</h3>
+          <p class="muted">Fill in a short form. The check tells you what is missing or contradicts itself before you send it.</p>
+          <span class="more">Create a report →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Principles</h2>
+      <div class="grid grid-2" style="margin-top:20px">
+        {principles.map(([title, text]) => (
+          <div>
+            <h3 style="margin-top:0">{title}</h3>
+            <p class="muted">{text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="card" style="display:grid;gap:12px">
+        <h2 style="margin:0">Open, and yours to use</h2>
+        <p style="margin:0">
+          The guide, the template and the examples are <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+          The builder and the <a href="/format/">JSON format</a> are MIT. Use them with any contractor and any software,
+          copy them into your own instructions, or build them into your own tool.
+        </p>
+        <p class="muted small" style="margin:0">
+          Open Repair Record is a practical guide and toolkit, not an official standard. Where it overlaps existing
+          housing data models, the <a href="/format/#mapping">format page</a> says so.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>

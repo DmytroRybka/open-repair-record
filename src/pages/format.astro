@@ -1,0 +1,118 @@
+---
+import Base from "../layouts/Base.astro";
+import { EXAMPLES } from "../examples";
+
+const fields = [
+  ["orr_version", "Always \"0.1\" for this version.", "yes"],
+  ["id", "Your job or ticket number.", ""],
+  ["title", "A short title.", ""],
+  ["timezone", "The property's IANA time zone, e.g. Asia/Qatar, when it matters.", ""],
+  ["related_ids", "Other records about the same problem.", ""],
+  ["context", "location, area (unit | common_area), asset, reported_at, reported_by_role, symptom.", "yes"],
+  ["work[]", "Contractor statements, oldest first: by {name, company, role}, at, done, diagnosis, outcome (resolved | temporary_fix | partial | not_done | no_access), follow_up_needed, follow_up.", "yes"],
+  ["checks[]", "by_role (technician | coordinator | inspector | resident | other), by_name, at, method (test_run | measurement | visual | photo_review | other), result, limits.", "yes"],
+  ["evidence[]", "type (photo | measurement | test_log | certificate | document | other), description, taken_by, taken_at, reference.", "yes"],
+  ["resident", "status (resolved | not_resolved | not_asked | pending | no_reply | not_applicable), asked_at, answered_at, words, channel.", "yes"],
+  ["open_items[]", "what, owner, next_step, due.", "yes"],
+  ["status", "open | closed.", "yes"],
+  ["closure", "Only while closed: closed_by {name, company, role}, closed_at, reason_code (confirmed_by_resident | work_reported_done_no_reply | administrative | duplicate | cancelled | other), reason.", ""],
+  ["history[]", "Later additions, oldest first: at, by, kind (resident_reply | revisit | correction | reopened | note), text, previous_closure.", "yes"],
+];
+
+const mapping = [
+  ["id", "work_order_id", ""],
+  ["context.reported_at", "date_reported", ""],
+  ["context.location", "address_id, location_of_repair", "theirs is an address identifier plus where in the home"],
+  ["context.symptom", "description_of_work", "theirs describes the problem from a schedule of rates or a local code"],
+  ["work[].at", "actual_start_date_time, actual_completion_date_time", "ORR keeps one time per statement"],
+  ["work[].by", "contractor_organisation, work_order_complete.operatives_used", ""],
+  ["work[].done", "work_order_complete.completed_work_elements", ""],
+  ["work[].follow_up, open_items[]", "work_order_complete.follow_on_work", "theirs is a single text field"],
+  ["status, closure, history[]", "work_order_status_history (status_code, reason, reason_code, created_date_time), job_status_update", "codes are free text in both"],
+  ["checks[], evidence[], resident", "no equivalent in the work_order definitions", ""],
+  ["not in ORR", "work_priority, planned dates, estimated_cost, repair_sla_breach_flag, access information, alerts, trade and schedule-of-rates codes", "left to the operator's own system"],
+];
+---
+<Base title="Format 0.1" description="The Open Repair Record 0.1 JSON format and JSON Schema: fields, rules, examples, and an informal mapping to existing housing repair data models." section="format">
+  <div class="wrap page-head">
+    <div class="prose" style="max-width:860px">
+      <p class="eyebrow">Format 0.1</p>
+      <h1>The record as data</h1>
+      <p class="lead">
+        The builder saves every record as a small JSON file. The format is open (MIT), versioned, and described by a
+        JSON Schema, so any tool can read and write it.
+      </p>
+      <div class="btn-row" style="margin:20px 0 8px">
+        <a class="btn btn-primary" href="/schema/orr-0.1.schema.json">JSON Schema 0.1</a>
+        <a class="btn" href="/examples/ac-no-reply.json">An example file</a>
+      </div>
+      <p class="small muted">JSON Schema draft 2020-12. Schema id: <code>https://openrepairrecord.com/schema/orr-0.1.schema.json</code></p>
+
+      <h2>Fields</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Field</th><th>What it holds</th><th>Required</th></tr></thead>
+          <tbody>
+            {fields.map(([f, t, req]) => <tr><td><code>{f}</code></td><td>{t}</td><td>{req}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Dates are ISO 8601 as written: <code>2026-10-12</code> or <code>2026-10-12T14:20</code>, in the property's local
+        time unless an offset is given. Text is free text: the format does not impose code lists beyond the few
+        choices above, which every report needs to be read the same way.
+      </p>
+
+      <h2>Rules</h2>
+      <p>The schema checks the shape. A few rules are about meaning, and the builder's check applies them:</p>
+      <ul>
+        <li><code>resident.status</code> <code>no_reply</code> stays <code>no_reply</code>. No tool should turn silence into <code>resolved</code>.</li>
+        <li>An open record has no <code>closure</code>. Reopening moves the old closure into <code>history[].previous_closure</code>, unchanged.</li>
+        <li><code>closure.reason_code</code> <code>confirmed_by_resident</code> needs <code>resident.status</code> <code>resolved</code>.</li>
+        <li>A latest <code>work</code> outcome of <code>temporary_fix</code> or <code>partial</code> needs at least one <code>open_items</code> entry.</li>
+        <li><code>not_applicable</code> is for common areas. Evidence is never required.</li>
+        <li>Entries are added, not rewritten. Corrections go in <code>history</code>.</li>
+      </ul>
+
+      <h2>Example files</h2>
+      <ul>
+        {EXAMPLES.map((e) => <li><a href={`/examples/${e.slug}.json`}>{e.slug}.json</a> · {e.name}</li>)}
+      </ul>
+
+      <h2 id="mapping">How it relates to existing models</h2>
+      <p>
+        Open Repair Record is a practical guide and a small format for one report. It is not a new data standard for
+        housing, and it does not replace the models that already exist:
+      </p>
+      <ul>
+        <li><strong>HACT UK Housing Data Standards</strong> cover reactive repairs among much else. We have not mapped ORR to them; if you use them, keep using them.</li>
+        <li><strong>MIMOSA CCOM</strong>, <strong>COBie</strong> and <strong>OSCRE</strong> model assets, completed work and property data in far more depth.</li>
+      </ul>
+      <p>
+        The closest public schema we have read is the
+        <a href="https://github.com/data-futurists/damp-and-mould-standards-concept">damp-and-mould data standards proof of concept</a>
+        (data-futurists, MIT, 2025). Its own README says it is a proof of concept, not finalised, and not for live
+        services. The table below is our informal reading of its <code>work_order</code> definitions, not an official
+        mapping:
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Open Repair Record</th><th>Damp-and-mould proof of concept</th><th>Note</th></tr></thead>
+          <tbody>
+            {mapping.map(([a, b, n]) => <tr><td><code>{a}</code></td><td>{b}</td><td class="muted">{n}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The gap is the point: work-order models describe the job; ORR adds who checked what, what the resident
+        answered, and why the record was closed. If an existing model covers what you need, use it, and treat ORR as a
+        guide for filling it in well.
+      </p>
+
+      <h2 id="changelog">Versions</h2>
+      <ul>
+        <li><strong>0.1</strong> (October 2026): first public draft. Breaking changes are possible before 1.0; every change will be listed here with a new version number.</li>
+      </ul>
+    </div>
+  </div>
+</Base>

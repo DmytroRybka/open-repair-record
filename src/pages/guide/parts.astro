@@ -1,0 +1,91 @@
+---
+import Guide from "../../layouts/Guide.astro";
+---
+<Guide
+  path="/guide/parts/"
+  title="The six parts of a repair record"
+  description="What was reported, what the contractor says, checks and evidence, the resident's answer, who closed it and why, and later additions."
+>
+  <p class="eyebrow">The guide</p>
+  <h1>The six parts</h1>
+  <p class="lead">Each part answers one question. Together they make a report that someone outside your system can read.</p>
+
+  <h2 id="reported">1. What was reported</h2>
+  <p>
+    Where (the building and unit, or the common area), when, who reported it, and <strong>the symptom in the
+    reporter's own words</strong>: "water is dripping from the AC in the living room". If the equipment is known,
+    add its tag or a plain label.
+  </p>
+  <p>
+    Keep the symptom apart from the diagnosis. "Blocked condensate drain" is the contractor's view of the cause and
+    belongs in their statement. If the fault comes back, the original symptom is what you compare against.
+  </p>
+
+  <h2 id="contractor">2. What the contractor says</h2>
+  <p>
+    One entry per visit or report of work: who made the statement, when, what they did, the cause if they know it,
+    and the outcome they report:
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Outcome</th><th>Use it when</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Resolved</strong></td><td>The contractor believes the fault is fixed.</td></tr>
+        <tr><td><strong>Temporary fix</strong></td><td>The symptom is stopped, but the real repair is still to come.</td></tr>
+        <tr><td><strong>Partly done</strong></td><td>Some of the work is done; the rest needs another visit or parts.</td></tr>
+        <tr><td><strong>Not done</strong></td><td>The contractor came but could not do the work.</td></tr>
+        <tr><td><strong>No access</strong></td><td>Nobody let the contractor in.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>This is a statement, not a verdict. The report shows it as "Statement by …", with a name and a time.</p>
+
+  <h2 id="checks">3. Checks and evidence</h2>
+  <p>
+    A check is anything someone did to confirm the work: a test run, a measurement, a look, a review of a photo.
+    For each, write <strong>who checked, how, what they found, and what the check did not cover</strong>. "Ran the
+    unit for 15 minutes, no leak while watching" and "did not inspect the unit" are both useful facts.
+  </p>
+  <p>
+    Evidence is what backs a statement or a check: a photo, a measurement, a test log, a certificate. Note what it
+    shows and who made it. Photos are useful, but never required: for many jobs a photo proves very little, and a
+    form that refuses a report without one only teaches people to take meaningless photos.
+  </p>
+  <p>If nobody checked, leave it empty. The report will say "no check is recorded", which is honest.</p>
+
+  <h2 id="resident">4. The resident's answer</h2>
+  <p>Is the problem the resident reported solved, in their view? There are six possible answers, and they are not interchangeable:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Answer</th><th>Means</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Resolved</strong></td><td>The resident says it is solved. Quote their words.</td></tr>
+        <tr><td><strong>Not resolved</strong></td><td>The resident says it is not. The record should not be closed as done.</td></tr>
+        <tr><td><strong>Not asked yet</strong></td><td>Nobody has asked.</td></tr>
+        <tr><td><strong>Asked, waiting</strong></td><td>The question was sent; there is no answer yet.</td></tr>
+        <tr><td><strong>No reply</strong></td><td>The question was sent and nothing came back. This stays "no reply"; it is never turned into a yes.</td></tr>
+        <tr><td><strong>Not applicable</strong></td><td>There is no resident to ask: a lobby light, a car park barrier, a plant room.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Record when the resident was asked and, if they answered, when. The date of the question is what makes "no reply" meaningful.</p>
+
+  <h2 id="closure">5. Who closed it, and why</h2>
+  <p>
+    Closing a record is a decision someone takes. Write who took it, when, and the reason: confirmed by the
+    resident; work reported done with no reply; an administrative reason; a duplicate; cancelled. If anything is
+    still open, list it with an owner, a next step and a date, and think twice about closing.
+  </p>
+  <p>
+    Closing a job without a confirmation is sometimes the right call. A record that says "closed: work reported done,
+    asked the resident on 11 Oct, no reply after four days" is a perfectly good record. A record that says "resolved"
+    when nobody knows is not.
+  </p>
+
+  <h2 id="history">6. Later additions</h2>
+  <p>
+    A late reply, a revisit, a correction: add it as a new entry with a time and an author. If a closed record has to
+    be reopened, the earlier closure is kept in the history as it was, and the new visit becomes another statement.
+    Nothing earlier is overwritten, so anyone can follow what happened in order.
+  </p>
+</Guide>

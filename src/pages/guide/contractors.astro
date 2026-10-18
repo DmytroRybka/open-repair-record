@@ -1,0 +1,44 @@
+---
+import Guide from "../../layouts/Guide.astro";
+
+const instructions = `When you finish a job, please send us:
+1. What you did, in a sentence or two.
+2. The cause, if you know it.
+3. How you checked it works (a test, a measurement or a photo), and anything you did not check.
+4. Whether it is fully fixed, a temporary fix, or partly done.
+5. Anything still left to do, and when you can do it.
+If you could not get in, tell us that too.
+We record your answer as your statement, with your name and the time.`;
+---
+<Guide
+  path="/guide/contractors/"
+  title="Asking contractors for a completion report"
+  description="Copy-ready instructions for contractors: what to send when a job is finished, in five short points."
+>
+  <p class="eyebrow">The guide</p>
+  <h1>Asking contractors for it</h1>
+  <p class="lead">Most of a good record comes from the contractor's first message. Ask for the right things once, in your contractor instructions, and you rarely have to chase.</p>
+
+  <h2>Put this in your contractor instructions</h2>
+  <p>Copy it into your onboarding pack, your job-sheet footer, or the message you send with each job. It is CC BY 4.0, so you can change it freely.</p>
+  <pre><code>{instructions}</code></pre>
+
+  <h2>When something is missing</h2>
+  <p>
+    The <a href="/build/">builder</a> writes a short message that asks only for what the record does not have yet, for
+    example how the work was checked, or what is left to do. Copy it, or open it straight in WhatsApp.
+  </p>
+
+  <h2>Ask the resident the same way every time</h2>
+  <p>A short, neutral question gets more answers than a satisfaction survey:</p>
+  <pre><code>{`Hello, about your report "AC dripping water" (Tower 2, Apartment 1204): Bluepoint Cooling reports the work was done on 11 Oct.
+Is the problem solved? Please reply 1 for yes or 2 for no. You can also tell us in your own words.`}</code></pre>
+  <p>Write down when you asked. If nobody answers, the record says "no reply", with that date.</p>
+
+  <h2>Keep it light</h2>
+  <p>
+    A small job needs a small record: a one-line statement, a quick test, and the resident's answer. The point is not
+    paperwork. It is that anyone reading the record later can tell what was claimed, what was checked and what the
+    resident said, without phoning three people.
+  </p>
+</Guide>

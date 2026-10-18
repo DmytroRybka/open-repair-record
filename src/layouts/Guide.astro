@@ -1,0 +1,41 @@
+---
+import Base from "./Base.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+}
+
+const GUIDE = [
+  { path: "/guide/", label: "What \"completed\" means" },
+  { path: "/guide/parts/", label: "The six parts" },
+  { path: "/guide/good-and-weak/", label: "A weak report and a good one" },
+  { path: "/guide/mistakes/", label: "Common mistakes" },
+  { path: "/guide/contractors/", label: "Asking contractors for it" },
+];
+
+const { title, description, path } = Astro.props;
+const i = GUIDE.findIndex((g) => g.path === path);
+const prev = i > 0 ? GUIDE[i - 1] : undefined;
+const next = i >= 0 && i < GUIDE.length - 1 ? GUIDE[i + 1] : undefined;
+---
+<Base title={title} description={description} section="guide">
+  <div class="wrap page-head">
+    <div class="with-aside">
+      <nav class="aside-nav" aria-label="Guide">
+        <p class="eyebrow">The guide</p>
+        <ul>
+          {GUIDE.map((g) => <li><a href={g.path} aria-current={g.path === path ? "page" : undefined}>{g.label}</a></li>)}
+        </ul>
+      </nav>
+      <article class="prose">
+        <slot />
+        <nav class="pager" aria-label="Guide pages">
+          {prev ? <a href={prev.path}>← {prev.label}</a> : <span />}
+          {next ? <a href={next.path}>{next.label} →</a> : <a href="/build/">Create a report →</a>}
+        </nav>
+      </article>
+    </div>
+  </div>
+</Base>

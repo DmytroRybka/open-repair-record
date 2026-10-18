@@ -1,0 +1,57 @@
+---
+import Guide from "../../layouts/Guide.astro";
+---
+<Guide
+  path="/guide/good-and-weak/"
+  title="A weak completion report and a good one"
+  description="The same AC repair, written up twice: once as a one-line 'done', once as an Open Repair Record."
+>
+  <p class="eyebrow">The guide</p>
+  <h1>A weak report and a good one</h1>
+  <p class="lead">The same fictional repair, written up twice.</p>
+
+  <p>
+    A resident in Tower 2, Apartment 1204 reports water dripping from the living-room AC. A technician visits the
+    next day. The resident is asked whether it is fixed and never answers. Four days later the coordinator closes
+    the job.
+  </p>
+
+  <div class="compare">
+    <div class="card weak">
+      <p><span class="tag tag-red">Weak</span></p>
+      <p><strong>Q-1204 · AC leak</strong><br />Status: <strong>Completed</strong></p>
+      <p class="muted" style="margin:0">"Done. AC fixed." · 11 Oct</p>
+    </div>
+    <div class="card good">
+      <p><span class="tag tag-green">Good</span></p>
+      <p style="margin-bottom:6px"><strong>Q-1204 · AC dripping water</strong> · Closed</p>
+      <ul class="small" style="margin:0;padding-left:18px">
+        <li><strong>Reported:</strong> "Water is dripping from the AC in the living room." Resident, 10 Oct.</li>
+        <li><strong>Contractor says:</strong> cleared the blocked condensate drain; ran the unit 15 minutes, no leak while watching. Resolved. Ravi Kumar, Bluepoint Cooling, 11 Oct.</li>
+        <li><strong>Checks:</strong> technician's 15-minute test run. Coordinator reviewed the photo and test note; <em>did not inspect the unit</em>.</li>
+        <li><strong>Resident:</strong> asked 11 Oct by WhatsApp. <strong>No reply.</strong></li>
+        <li><strong>Closed:</strong> Lina Haddad, 15 Oct. Work reported done, no reply from the resident.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>What the weak report hides</h2>
+  <ul>
+    <li><strong>Who says it is fixed.</strong> "Done" could be the technician, the coordinator, or a status set automatically.</li>
+    <li><strong>What was done.</strong> If the leak comes back, the next technician starts from zero.</li>
+    <li><strong>What was checked, and what was not.</strong> A 15-minute test is useful, but it is not a day's use, and nobody looked at the unit afterwards.</li>
+    <li><strong>That the resident never confirmed.</strong> "Completed" reads as if they had.</li>
+  </ul>
+
+  <h2>What the good report does not claim</h2>
+  <p>
+    It does not say the AC is safe, or that the repair is of good quality, or that the resident is satisfied. It says
+    what each person stated and checked, and where the knowledge stops. That is why it holds up when the resident
+    writes three days later that it is dripping again: see the <a href="/examples/ac-reopened/">reopened example</a>.
+  </p>
+  <p>
+    The good report took a few more lines. Most of them already existed: in the technician's message, the photo,
+    and the WhatsApp thread. The record simply keeps them together, each with its source.
+  </p>
+  <p><a class="btn" href="/examples/ac-no-reply/">See the full report</a> <a class="btn btn-quiet" href="/build/?example=ac-no-reply">Open it in the builder</a></p>
+</Guide>

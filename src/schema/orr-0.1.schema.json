@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openrepairrecord.com/schema/orr-0.1.schema.json",
+  "title": "Open Repair Record 0.1",
+  "description": "One repair record: what was reported, what the contractor says was done, what was checked and by whom, the resident's answer, open items, who closed the record and why, and later additions. Each source stays separate; there is no single 'done' flag. Licence: MIT.",
+  "type": "object",
+  "required": ["orr_version", "context", "work", "checks", "evidence", "resident", "open_items", "status", "history"],
+  "additionalProperties": false,
+  "properties": {
+    "orr_version": { "const": "0.1" },
+    "id": { "type": "string", "description": "The operator's own reference, such as a ticket or job number." },
+    "title": { "type": "string" },
+    "timezone": { "type": "string", "description": "IANA time zone of the property, e.g. Asia/Qatar." },
+    "related_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Other records about the same problem, such as an earlier job that was closed."
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "location": { "type": "string", "description": "Building and unit, or the common area." },
+        "area": { "enum": ["unit", "common_area"] },
+        "asset": { "type": "string", "description": "Asset tag or plain label of the equipment, if known." },
+        "reported_at": { "$ref": "#/$defs/date" },
+        "reported_by_role": { "enum": ["resident", "owner", "staff", "inspection", "other"] },
+        "symptom": { "type": "string", "description": "What was reported, in the reporter's terms. Not the diagnosis." }
+      }
+    },
+    "work": {
+      "type": "array",
+      "description": "Contractor statements, oldest first.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "by": { "$ref": "#/$defs/person" },
+          "at": { "$ref": "#/$defs/date" },
+          "done": { "type": "string", "description": "What the contractor says was done." },
+          "diagnosis": { "type": "string", "description": "The contractor's view of the cause." },
+          "outcome": { "enum": ["resolved", "temporary_fix", "partial", "not_done", "no_access"] },
+          "follow_up_needed": { "type": "boolean" },
+          "follow_up": { "type": "string" }
+        }
+      }
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "by_role": { "enum": ["technician", "coordinator", "inspector", "resident", "other"] },
+          "by_name": { "type": "string" },
+          "at": { "$ref": "#/$defs/date" },
+          "method": { "enum": ["test_run", "measurement", "visual", "photo_review", "other"] },
+          "result": { "type": "string", "description": "What the check found." },
+          "limits": { "type": "string", "description": "What the check did not cover." }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": { "enum": ["photo", "measurement", "test_log", "certificate", "document", "other"] },
+          "description": { "type": "string" },
+          "taken_by": { "type": "string" },
+          "taken_at": { "$ref": "#/$defs/date" },
+          "reference": { "type": "string", "description": "A file name or a link. Nothing is uploaded." }
+        }
+      }
+    },
+    "resident": {
+      "type": "object",
+      "required": ["status"],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": ["resolved", "not_resolved", "not_asked", "pending", "no_reply", "not_applicable"],
+          "description": "no_reply stays no_reply: silence is never a confirmation."
+        },
+        "asked_at": { "$ref": "#/$defs/date" },
+        "answered_at": { "$ref": "#/$defs/date" },
+        "words": { "type": "string", "description": "The resident's own words, verbatim." },
+        "channel": { "type": "string" }
+      }
+    },
+    "open_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "what": { "type": "string" },
+          "owner": { "type": "string" },
+          "next_step": { "type": "string" },
+          "due": { "$ref": "#/$defs/date" }
+        }
+      }
+    },
+    "status": { "enum": ["open", "closed"] },
+    "closure": { "$ref": "#/$defs/closure" },
+    "history": {
+      "type": "array",
+      "description": "Later additions, oldest first. Earlier entries are never rewritten.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "at": { "$ref": "#/$defs/date" },
+          "by": { "type": "string" },
+          "kind": { "enum": ["resident_reply", "revisit", "correction", "reopened", "note"] },
+          "text": { "type": "string" },
+          "previous_closure": { "$ref": "#/$defs/closure" }
+        }
+      }
+    }
+  },
+  "if": { "properties": { "status": { "const": "open" } } },
+  "then": { "properties": { "closure": false } },
+  "$defs": {
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}(:\\d{2}(\\.\\d+)?)?(Z|[+-]\\d{2}:\\d{2})?)?$",
+      "description": "ISO 8601 date, or date and time (local time of the property unless an offset is given)."
+    },
+    "person": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "company": { "type": "string" },
+        "role": { "type": "string" }
+      }
+    },
+    "closure": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "closed_by": { "$ref": "#/$defs/person" },
+        "closed_at": { "$ref": "#/$defs/date" },
+        "reason_code": {
+          "enum": ["confirmed_by_resident", "work_reported_done_no_reply", "administrative", "duplicate", "cancelled", "other"]
+        },
+        "reason": { "type": "string" }
+      }
+    }
+  }
+}

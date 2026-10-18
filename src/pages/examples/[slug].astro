@@ -1,0 +1,30 @@
+---
+import Base from "../../layouts/Base.astro";
+import ReportView from "../../components/ReportView";
+import PrintButton from "../../components/PrintButton.astro";
+import { EXAMPLES, type Example } from "../../examples";
+
+export function getStaticPaths() {
+  return EXAMPLES.map((e) => ({ params: { slug: e.slug }, props: { example: e } }));
+}
+
+const { example } = Astro.props as { example: Example };
+const i = EXAMPLES.findIndex((e) => e.slug === example.slug);
+const next = EXAMPLES[(i + 1) % EXAMPLES.length]!;
+---
+<Base title={`Example: ${example.name}`} description={example.lesson} section="examples">
+  <div class="wrap page-head">
+    <div class="no-print">
+      <p class="eyebrow"><a href="/examples/" style="text-decoration:none">Examples</a> · {i + 1} of {EXAMPLES.length}</p>
+      <h1>{example.name}</h1>
+      <p class="lead">{example.lesson}</p>
+      <div class="btn-row" style="margin:20px 0 28px">
+        <a class="btn btn-primary" href={`/build/?example=${example.slug}`}>Open in the builder</a>
+        <a class="btn" href={`/examples/${example.slug}.json`} download>Download JSON</a>
+        <PrintButton />
+      </div>
+    </div>
+    <ReportView record={example.record} />
+    <p class="no-print" style="margin-top:28px"><a href={`/examples/${next.slug}/`}>Next example: {next.name} →</a></p>
+  </div>
+</Base>

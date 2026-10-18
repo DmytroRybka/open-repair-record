@@ -1,0 +1,44 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base title="About" description="Why Open Repair Record exists, who started it, and how it is licensed." section="about">
+  <div class="wrap page-head">
+    <div class="prose">
+      <p class="eyebrow">About</p>
+      <h1>Why this exists</h1>
+      <p class="lead">
+        A slow repair is frustrating. A repair marked "done" that nobody checked is worse: the resident finds out when
+        the problem comes back, and the record says everything was fine.
+      </p>
+      <p>
+        Repair systems are good at moving a ticket from open to closed. They are less good at recording what that
+        closing means: who said the work was done, what was checked, and whether the person who reported the problem
+        agrees. Open Repair Record is a small, shared answer to that: a guide to what a completed repair should say,
+        and a free tool that helps write it.
+      </p>
+
+      <h2>Who is behind it</h2>
+      <p>
+        Open Repair Record was initiated by the team behind <a href="https://pmfriend.com/">PMFriend</a>, which builds
+        maintenance software for property managers. PMFriend automates the whole repair loop, from the first message
+        to the resident's confirmation. The guide and this tool are deliberately useful without it: no account, no
+        PMFriend footer on your reports, and anyone, including other software vendors, is welcome to use and
+        implement the format.
+      </p>
+
+      <h2>Licences</h2>
+      <ul>
+        <li>The guide, the template and the examples: <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>. Credit "Open Repair Record, openrepairrecord.com".</li>
+        <li>The builder's code and the JSON Schema: MIT.</li>
+        <li>The examples are fictional. Any resemblance to real people, companies or addresses is coincidental.</li>
+      </ul>
+
+      <h2>Taking part</h2>
+      <p>
+        The format is at version 0.1 and will change with use. If you run maintenance, do repairs, or build software for
+        either, we would like to see a real (anonymised) completion report and hear what this gets wrong. Write to
+        <a href="mailto:support@pmfriend.com">support@pmfriend.com</a>.
+      </p>
+    </div>
+  </div>
+</Base>

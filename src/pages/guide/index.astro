@@ -1,0 +1,63 @@
+---
+import Guide from "../../layouts/Guide.astro";
+---
+<Guide
+  path="/guide/"
+  title="What a completed repair means"
+  description="A repair is complete when the record says what was done, what was checked and by whom, whether the resident's problem is solved, and who closed it and why."
+>
+  <p class="eyebrow">The guide</p>
+  <h1>What "completed" means</h1>
+  <p class="lead">
+    A job marked "done" can mean many things: the contractor left, the work was tested, the resident is happy, or
+    somebody closed the ticket to tidy the list. A good record says which.
+  </p>
+
+  <p>
+    Most repair systems have a status field, and when the contractor reports the work as done, that field turns
+    green. The trouble starts later. The resident writes that the leak is back. The owner asks what was actually
+    replaced. Another contractor comes and finds the same fault. Nobody can tell from the record what was claimed,
+    what was checked, and what the resident ever said.
+  </p>
+
+  <p>Open Repair Record answers one question for every closed job:</p>
+  <div class="callout">
+    <p><strong>The contractor closed the job. What exactly was done, what was checked, and is the resident's problem solved?</strong></p>
+  </div>
+
+  <h2>Who says what</h2>
+  <p>
+    The core idea is to keep each source of information separate. A contractor's statement, a coordinator's check
+    and a resident's answer are different things, with different weight. A record that merges them into one "done"
+    loses exactly the information people need when something goes wrong.
+  </p>
+  <ul>
+    <li><strong>The contractor</strong> says what they did and what they believe the outcome is.</li>
+    <li><strong>A check</strong> says who looked, how (a test run, a measurement, a photo), what they found, and what they did not cover.</li>
+    <li><strong>The resident</strong> says whether the problem they reported is solved, in their view. Or they say nothing, and the record says that too.</li>
+    <li><strong>The coordinator</strong> decides to close the record, and says why.</li>
+  </ul>
+
+  <h2>A quick test for any completion report</h2>
+  <p>Before you close a job, the report should let a stranger answer these questions:</p>
+  <ol>
+    <li>What was reported, where, and when?</li>
+    <li>Who says the work is done, and what exactly did they do?</li>
+    <li>Was anything checked? By whom, how, and what did the check not cover?</li>
+    <li>What did the resident say? If nothing, were they asked, and when?</li>
+    <li>Is anything left to do? Who owns it, and by when?</li>
+    <li>Who closed the record, and for what reason?</li>
+  </ol>
+  <p>
+    If any answer is "I don't know", the report is not wrong, it is just incomplete. The
+    <a href="/build/">builder</a> shows you which parts are missing before you send it.
+  </p>
+
+  <h2>What this is not</h2>
+  <p>
+    A repair record documents claims and checks. It is not a safety certificate, an inspection, or a legal sign-off,
+    and it does not replace any inspection or certificate your local rules require. A resident's "it's fixed"
+    confirms what they see; it says nothing about the safety of the equipment. A photo shows what it shows. The
+    record is useful precisely because it is honest about these differences.
+  </p>
+</Guide>

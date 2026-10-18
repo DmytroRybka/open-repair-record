@@ -1,0 +1,22 @@
+---
+import Base from "../layouts/Base.astro";
+import Builder from "../components/Builder";
+---
+<Base
+  title="Create a repair completion report"
+  description="A free form for one clear repair completion report. It checks what is missing or contradicts itself, then prints, saves as PDF or JSON. No account; nothing leaves your browser."
+  section="build"
+>
+  <div class="wrap" style="padding-top:32px">
+    <div class="no-print" style="margin-bottom:20px">
+      <h1 style="font-size:clamp(1.6rem,4vw,2.2rem);margin-bottom:6px">Create a repair completion report</h1>
+      <p class="muted" style="margin:0;max-width:48rem">
+        Fill in what you know. The check on the right tells you what is missing or contradicts itself. Your draft stays
+        in this browser; nothing is uploaded.
+      </p>
+    </div>
+    <Builder client:only="react">
+      <p slot="fallback" class="muted">Loading the builder… It needs JavaScript; everything runs in your browser.</p>
+    </Builder>
+  </div>
+</Base>

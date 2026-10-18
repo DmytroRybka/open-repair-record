@@ -1,0 +1,99 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Keeps a page out of search results (Impressum, privacy). */
+  noindex?: boolean;
+  /** The nav item to mark as the current page. */
+  section?: "guide" | "examples" | "build" | "format" | "about";
+}
+
+const { title, description, noindex = false, section } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const fullTitle = title === "Open Repair Record" ? title : `${title} · Open Repair Record`;
+const nav = [
+  { href: "/guide/", label: "Guide", key: "guide" },
+  { href: "/examples/", label: "Examples", key: "examples" },
+  { href: "/format/", label: "Format", key: "format" },
+  { href: "/about/", label: "About", key: "about" },
+] as const;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#0e6b58" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Open Repair Record" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL("/og.png", Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header no-print">
+      <div class="wrap">
+        <a class="brand" href="/" aria-label="Open Repair Record, home">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <rect x="2" y="2" width="28" height="28" rx="7" fill="#0e6b58" />
+            <path d="M9 10.5h14M9 15.5h8" stroke="#bfe3d7" stroke-width="2.4" stroke-linecap="round" />
+            <path d="M15.5 21.5l3 3 5.5-6.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span>Open Repair Record<small>What does a completed repair mean?</small></span>
+        </a>
+        <nav class="nav" aria-label="Main">
+          {nav.map((n) => <a href={n.href} aria-current={section === n.key ? "page" : undefined}>{n.label}</a>)}
+          <a class="btn btn-primary" href="/build/" aria-current={section === "build" ? "page" : undefined}>Create a report</a>
+        </nav>
+      </div>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer no-print">
+      <div class="wrap cols">
+        <div>
+          <p style="margin:0 0 8px;color:var(--ink-2);font-weight:650">Open Repair Record</p>
+          <p style="margin:0 0 8px">
+            An open guide and a free tool for writing down what a completed repair actually means. No account, and
+            nothing leaves your browser.
+          </p>
+          <p style="margin:0">
+            Initiated by the <a href="https://pmfriend.com/">PMFriend</a> team. Text and examples:
+            <a href="https://creativecommons.org/licenses/by/4.0/" rel="license">CC BY 4.0</a>. Code and schema: MIT.
+          </p>
+        </div>
+        <div>
+          <h4>Use it</h4>
+          <ul>
+            <li><a href="/build/">Create a report</a></li>
+            <li><a href="/template/">Blank template</a></li>
+            <li><a href="/examples/">Examples</a></li>
+            <li><a href="/format/">Format 0.1 and schema</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>About</h4>
+          <ul>
+            <li><a href="/guide/">The guide</a></li>
+            <li><a href="/faq/">Questions</a></li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/impressum/">Impressum</a></li>
+            <li><a href="/privacy/">Privacy</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

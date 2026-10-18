@@ -1,0 +1,40 @@
+---
+import Guide from "../../layouts/Guide.astro";
+
+const mistakes = [
+  ["Closed before the work was finished",
+    "The contractor's \"done\" closes the ticket automatically, while parts are still on order or a second visit is booked. Close the record when the work is finished, or keep it open with an open item that has an owner and a date."],
+  ["No reply treated as yes",
+    "The resident was sent a message and did not answer, and the job shows as confirmed. Silence is not a confirmation. Write \"no reply\", with the date you asked, and close for that reason if you have to."],
+  ["A temporary fix closed as done",
+    "A leak stopped with a clamp, a breaker reset, a part bypassed. These are often the right first step, but they are not the repair. Record them as a temporary fix and add what is left."],
+  ["The symptom replaced by the diagnosis",
+    "The record says \"replaced capacitor\" and nobody remembers that the resident reported a burning smell. Keep the reporter's words; the cause goes in the contractor's statement."],
+  ["\"Checked\" without saying how",
+    "\"Checked OK\" could mean a full test or a glance from the door. Say who checked, how, what they found, and what they did not cover."],
+  ["A photo taken as proof of quality",
+    "A photo of a new pipe joint shows a new pipe joint. It does not show that the joint holds, or that it was the right fix. Note what each photo shows, and never refuse a report just because it has none."],
+  ["Earlier entries overwritten",
+    "The first visit's notes are edited when the second visit finds something else, and the history disappears. Add new entries. If a closed record reopens, keep the earlier closure as it was."],
+  ["Asking a resident about a common area",
+    "Nobody lives in the plant room. For common areas, the resident's answer is \"not applicable\", and the check matters more."],
+];
+---
+<Guide
+  path="/guide/mistakes/"
+  title="Common mistakes in repair completion reports"
+  description="Closed before the work was finished, no reply treated as yes, a temporary fix closed as done, and five more."
+>
+  <p class="eyebrow">The guide</p>
+  <h1>Common mistakes</h1>
+  <p class="lead">Eight ways a "completed" job ends up meaning less than it says. Each one is easy to avoid once it has a name.</p>
+  {mistakes.map(([title, text], i) => (
+    <section>
+      <h3>{i + 1}. {title}</h3>
+      <p>{text}</p>
+    </section>
+  ))}
+  <div class="callout">
+    <p>The <a href="/build/">builder's check</a> looks for most of these as you type: a closure that says "confirmed" while the resident never answered, a temporary fix with nothing left open, a check with no result.</p>
+  </div>
+</Guide>
