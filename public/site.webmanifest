@@ -1,0 +1,13 @@
+{
+  "name": "Open Repair Record",
+  "short_name": "Repair Record",
+  "description": "An open guide and a free tool for an honest work order close-out.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#f6f7f4",
+  "theme_color": "#0e6b58",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
