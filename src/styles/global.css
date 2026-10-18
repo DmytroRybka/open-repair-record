@@ -160,8 +160,11 @@ td code { white-space: nowrap; }
 .summary dt { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 650; }
 .summary dd { margin: 2px 0 0; font-weight: 650; }
 .summary .who { display: block; font-weight: 400; color: var(--muted); font-size: 0.82rem; }
-.report section { margin-top: 18px; break-inside: avoid-page; }
-.report h3 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent-ink); margin: 0 0 8px; padding-bottom: 4px; border-bottom: 1px solid var(--line); }
+.report section { margin-top: 18px; }
+.report h3 { break-after: avoid; }
+.report .summary, .report .entry, .report .timeline .ev, .report .kv { break-inside: avoid; }
+.report h3 { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-ink); margin: 0 0 8px; padding-bottom: 6px; border-bottom: 1.5px solid var(--accent-soft); }
+.report .sec-num { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 6px; background: var(--accent); color: #fff; font-size: 0.72rem; letter-spacing: 0; flex: none; }
 .report .entry { padding: 8px 0; border-bottom: 1px dashed var(--line); break-inside: avoid; }
 .report .entry:last-child { border-bottom: 0; }
 .report .claim { font-size: 0.8rem; color: var(--muted); margin-bottom: 2px; }
@@ -245,13 +248,20 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--a
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* --------------------------------------------------------------------------------------------- */
-@page { size: A4; margin: 14mm 14mm 16mm; }
+@page {
+  size: A4;
+  margin: 14mm 14mm 18mm;
+  @bottom-left { content: "Open Repair Record 1.0 · openrepairrecord.com"; font: 7.5pt system-ui, sans-serif; color: #64706b; }
+  @bottom-right { content: "Page " counter(page) " of " counter(pages); font: 7.5pt system-ui, sans-serif; color: #64706b; }
+}
 @media print {
   body { background: #fff; font-size: 10.5pt; }
   .no-print, .site-header, .site-footer, .builder-side, .toolbar, .banner, .fieldset { display: none !important; }
   .print-only { display: block !important; }
   .wrap { max-width: none; padding: 0; }
-  .report { border: 0; box-shadow: none; padding: 0; font-size: 10pt; }
+  .report { border: 0; box-shadow: none; padding: 0; font-size: 10pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .report-brand { margin-top: 0; }
+  .report .stamp { transform: rotate(-3deg); }
   .report-head { border-bottom-color: #000; }
   .summary div { border-color: #bbb; }
   a { color: inherit; text-decoration: none; }
@@ -269,3 +279,32 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--a
 .btn-whatsapp { color: #128c4b; border-color: #b7e8cb; background: #effaf3; }
 .btn-whatsapp:hover { color: #0b6b38; border-color: #25d366; background: #e2f7ea; }
 .btn-whatsapp .wa-icon { color: #25d366; flex: none; }
+
+/* Report: the document look (screen and print). */
+.report-brand { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 0.76rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; font-weight: 650; margin: -6px 0 14px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.report-mark { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); text-transform: none; letter-spacing: 0; font-size: 0.9rem; font-weight: 700; }
+.report-head { border-bottom: 0; padding-bottom: 6px; margin-bottom: 14px; align-items: flex-start; }
+.report-head h2 { font-size: 1.6rem; letter-spacing: -0.02em; }
+.report .stamp { display: inline-block; font-size: 0.95rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; padding: 6px 14px; border-radius: 8px; border: 2.5px solid currentColor; background: transparent; transform: rotate(-3deg); }
+.report .stamp.status-closed { color: #0e6b58; }
+.report .stamp.status-open { color: #b45309; }
+.report .stamp-why { margin-top: 8px; font-size: 0.8rem; color: var(--ink-2); max-width: 240px; }
+.report .summary div { position: relative; border-top-width: 4px; }
+.report .summary .tone-good { border-top-color: #0e9f6e; }
+.report .summary .tone-warn { border-top-color: #e3a008; }
+.report .summary .tone-bad { border-top-color: #d92d20; }
+.report .summary .tone-neutral { border-top-color: #98a2b3; }
+.report .summary .tone-good dd { color: #05603a; }
+.report .summary .tone-warn dd { color: #93370d; }
+.report .summary .tone-bad dd { color: #b42318; }
+.report .summary .who { color: var(--muted); }
+.timeline { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 0; }
+.timeline .ev { display: grid; grid-template-columns: 9.5em 14px 1fr; align-items: baseline; gap: 10px; padding: 3px 0; font-size: 0.86rem; position: relative; break-inside: avoid; }
+.timeline .ev-date { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.timeline .ev-dot { width: 10px; height: 10px; border-radius: 50%; background: #98a2b3; align-self: center; position: relative; }
+.timeline .ev:not(:last-child) .ev-dot::after { content: ""; position: absolute; left: 4px; top: 10px; width: 2px; height: 22px; background: var(--line-2); }
+.timeline .ev-good .ev-dot { background: #0e9f6e; }
+.timeline .ev-warn .ev-dot { background: #e3a008; }
+.timeline .ev-bad .ev-dot { background: #d92d20; }
+.timeline .ev-detail { color: var(--muted); }
+@media (max-width: 559px) { .timeline .ev { grid-template-columns: 7.5em 12px 1fr; font-size: 0.82rem; } }
