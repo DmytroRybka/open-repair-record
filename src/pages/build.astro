@@ -4,8 +4,20 @@ import Builder from "../components/Builder";
 ---
 <Base
   title="Create a repair completion report"
-  description="A free form for one clear repair completion report. It checks what is missing or contradicts itself, then prints, saves as PDF or JSON. No account; what you type never leaves your browser."
+  description="A free form for a repair completion report. It flags what is missing or contradictory, then saves it as PDF or JSON. What you type stays in your browser."
   section="build"
+  schema={{
+    "@type": "WebApplication",
+    name: "Open Repair Record builder",
+    url: "https://openrepairrecord.com/build/",
+    description:
+      "A free form for one repair completion report. It checks what is missing or contradicts itself, then prints or saves the report as PDF or JSON. No account; everything runs in the browser.",
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Any (web browser)",
+    browserRequirements: "Requires JavaScript",
+    isAccessibleForFree: true,
+    offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
+  }}
 >
   <div class="wrap" style="padding-top:32px">
     <div class="no-print" style="margin-bottom:20px">

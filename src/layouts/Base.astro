@@ -8,14 +8,17 @@ interface Props {
   noindex?: boolean;
   /** The nav item to mark as the current page. */
   section?: "guide" | "examples" | "build" | "format" | "about";
+  /** schema.org JSON-LD for this page. Only describe what the page visibly says. */
+  schema?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description, noindex = false, section } = Astro.props;
+const { title, description, noindex = false, section, schema } = Astro.props;
 // Cloudflare Web Analytics: cookie-less, aggregated page views. Empty = no beacon on the page. If you change this,
 // keep the privacy page (src/pages/privacy.astro) in step.
 const CF_BEACON_TOKEN = "";
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const fullTitle = title === "Open Repair Record" ? title : `${title} · Open Repair Record`;
+const fullTitle = title.startsWith("Open Repair Record") ? title : `${title} · Open Repair Record`;
+const jsonLd = schema && { "@context": "https://schema.org", "@graph": Array.isArray(schema) ? schema : [schema] };
 const nav = [
   { href: "/guide/", label: "Guide", key: "guide" },
   { href: "/examples/", label: "Examples", key: "examples" },
@@ -46,6 +49,7 @@ const nav = [
     <meta property="og:image" content={new URL("/og.png", Astro.site)} />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>

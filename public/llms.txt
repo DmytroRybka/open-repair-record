@@ -1,0 +1,44 @@
+# Open Repair Record
+
+> An open guide, a free report builder and a small JSON format for writing down what a completed repair actually means: what was done, what was checked and by whom, whether the resident's problem is solved, and who closed the job and why. Made for property managers, maintenance coordinators, contractors and the software they use.
+
+Open Repair Record is not an official standard. It is offered for anyone to use, including commercially. It is not connected to the Open Repair Alliance (openrepair.org) or its Open Repair Data Standard, which cover electronics repairs at community repair groups. Open Repair Record is about repairs in buildings: homes, towers and compounds.
+
+## What it is
+
+- A guide to what "completed" should mean on a repair or work order: six parts of a record, common mistakes, and copy-ready instructions for contractors.
+- A free report builder that runs entirely in the browser. It flags what is missing or contradicts itself, then prints the report or saves it as PDF or JSON. No account, and nothing typed is uploaded.
+- A blank printable template for people who prefer paper.
+- Format 1.0: a JSON format with a JSON Schema (draft 2020-12). Every 1.x version only adds fields.
+- Five fictional worked examples: a normal repair, a temporary fix, no reply from the resident, a reopened job, and a visit with no access.
+
+## The six parts of a record
+
+1. What was reported: where, when, and the symptom in the reporter's words.
+2. What the contractor says: what they did, the outcome they claim, and anything left unfinished.
+3. Checks and evidence: who checked, how, what they found, and what the check did not cover.
+4. The resident's answer: resolved, not resolved, not asked, waiting, no reply, or not applicable. Never assumed.
+5. Who closed it, and why.
+6. Later additions: a late reply, a revisit or a correction is added; nothing earlier is rewritten.
+
+## Cost and licences
+
+Free. Guide, template and examples: CC BY 4.0, credited as "Open Repair Record, openrepairrecord.com". Builder code and JSON Schema: MIT.
+
+## Who is behind it
+
+Initiated by the team behind PMFriend (https://pmfriend.com/). The guide and the tool work without PMFriend. Contact: support@pmfriend.com
+
+## Key pages
+
+- Guide: https://openrepairrecord.com/guide/
+- The six parts: https://openrepairrecord.com/guide/parts/
+- Common mistakes: https://openrepairrecord.com/guide/mistakes/
+- Asking contractors for a completion report: https://openrepairrecord.com/guide/contractors/
+- Create a report: https://openrepairrecord.com/build/
+- Blank template: https://openrepairrecord.com/template/
+- Examples: https://openrepairrecord.com/examples/
+- Format 1.0: https://openrepairrecord.com/format/
+- JSON Schema: https://openrepairrecord.com/schema/orr-1.0.schema.json
+- Questions: https://openrepairrecord.com/faq/
+- About: https://openrepairrecord.com/about/
