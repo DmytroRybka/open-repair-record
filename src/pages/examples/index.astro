@@ -2,16 +2,16 @@
 import Base from "../../layouts/Base.astro";
 import { EXAMPLES } from "../../examples";
 ---
-<Base title="Examples" description="Five fictional repairs written up as Open Repair Records: a normal repair, a temporary fix, no reply, a reopened job and a visit with no access." section="examples">
+<Base title="Repair completion report examples" description="Five fictional repairs written up as Open Repair Records: a normal repair, a temporary fix, no reply, a reopened job and a visit with no access." section="examples">
   <div class="wrap page-head">
     <p class="eyebrow">Examples</p>
-    <h1>Five worked examples</h1>
-    <p class="lead">Each is a complete record you can read, print, download as JSON or open in the builder. All names, companies and addresses are invented.</p>
+    <h1>Repair completion report examples</h1>
+    <p class="lead">Five fictional repairs, each written up as a complete repair completion report. Each is a record you can read, print, download as JSON or open in the builder. All names, companies and addresses are invented.</p>
     <div class="grid grid-2" style="margin-top:28px">
       {EXAMPLES.map((e, i) => (
         <a class="card card-link" href={`/examples/${e.slug}/`}>
           <div class="part-num">{i + 1}</div>
-          <h3>{e.name}</h3>
+          <h2 class="card-h">{e.name}</h2>
           <p class="muted">{e.lesson}</p>
           <span class="more">See the report →</span>
         </a>

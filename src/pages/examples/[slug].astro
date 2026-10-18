@@ -12,7 +12,7 @@ const { example } = Astro.props as { example: Example };
 const i = EXAMPLES.findIndex((e) => e.slug === example.slug);
 const next = EXAMPLES[(i + 1) % EXAMPLES.length]!;
 ---
-<Base title={`Example: ${example.name}`} description={example.lesson} section="examples">
+<Base title={example.seoTitle} description={example.lesson} section="examples">
   <div class="wrap page-head">
     <div class="no-print">
       <p class="eyebrow"><a href="/examples/" style="text-decoration:none">Examples</a> · {i + 1} of {EXAMPLES.length}</p>

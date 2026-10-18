@@ -30,5 +30,27 @@ import Builder from "../components/Builder";
     <Builder client:only="react">
       <p slot="fallback" class="muted">Loading the builder… It needs JavaScript; everything runs in your browser.</p>
     </Builder>
+
+    <section class="prose no-print" style="margin-top:48px">
+      <h2>What the report covers</h2>
+      <p>
+        A repair completion report written here keeps each source of information apart, so whoever reads it can tell
+        what was claimed, what was checked, and what the resident said:
+      </p>
+      <ol>
+        <li><strong>What was reported:</strong> where, when, and the symptom in the reporter's words.</li>
+        <li><strong>What the contractor says:</strong> what they did, the cause, and the outcome they report.</li>
+        <li><strong>Checks:</strong> who checked, how, what they found, and what the check did not cover.</li>
+        <li><strong>Evidence:</strong> photos, measurements, test logs or certificates, if any. Never required.</li>
+        <li><strong>The resident:</strong> resolved, not resolved, not asked, waiting, no reply or not applicable.</li>
+        <li><strong>Still open:</strong> anything left to do, with an owner and a date.</li>
+        <li><strong>Closure:</strong> who closed the record, when, and why.</li>
+        <li><strong>Later additions:</strong> a late reply, a revisit or a correction, added without rewriting.</li>
+      </ol>
+      <p>
+        Prefer paper? Print the <a href="/template/">blank repair completion report template</a>. New to this? Read
+        <a href="/guide/">what "completed" should mean</a>, or start from one of the <a href="/examples/">worked examples</a>.
+      </p>
+    </section>
   </div>
 </Base>

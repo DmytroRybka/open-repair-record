@@ -82,9 +82,9 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2.5rem 0; }
 .site-footer { border-top: 1px solid var(--line); background: var(--paper); margin-top: 72px; padding: 32px 0 40px; font-size: 0.9rem; color: var(--muted); }
 .site-footer .cols { display: grid; gap: 24px; grid-template-columns: 1fr; }
 @media (min-width: 720px) { .site-footer .cols { grid-template-columns: 2fr 1fr 1fr; } }
-.site-footer h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-2); margin: 0 0 8px; }
+.site-footer .footer-label { font-weight: 650; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-2); margin: 0 0 8px; }
 .site-footer ul { list-style: none; padding: 0; margin: 0; }
-.site-footer a { color: var(--ink-2); }
+.site-footer a { color: var(--ink-2); display: inline-block; padding-block: 2px; }
 .onprem-note { margin: 10px 0 0; padding: 8px 10px; border: 1px dashed var(--line-2); border-radius: 8px; font-size: 0.85rem; }
 
 /* Buttons */
@@ -259,3 +259,8 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--a
   main { padding: 0 !important; }
 }
 .print-only { display: none; }
+
+/* Headings that sit one level up for the document outline but keep the size of a sub-heading. */
+.card-h, .faq-q, .mistake-h { font-size: 1.15rem; margin: 1.6em 0 0.5em; letter-spacing: -0.01em; }
+.card .card-h { margin-top: 0; }
+.report h2.tpl-h { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent-ink); margin: 0 0 8px; padding-bottom: 4px; border-bottom: 1px solid var(--line); }

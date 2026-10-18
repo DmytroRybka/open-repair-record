@@ -26,11 +26,11 @@ const mistakes = [
   description="Closed before the work was finished, no reply treated as yes, a temporary fix closed as done, and five more."
 >
   <p class="eyebrow">The guide</p>
-  <h1>Common mistakes</h1>
-  <p class="lead">Eight ways a "completed" job ends up meaning less than it says. Each one is easy to avoid once it has a name.</p>
+  <h1>Common mistakes in repair completion reports</h1>
+  <p class="lead">Eight ways a repair completion report ends up meaning less than it says. Each one is easy to avoid once it has a name.</p>
   {mistakes.map(([title, text], i) => (
     <section>
-      <h3>{i + 1}. {title}</h3>
+      <h2 class="mistake-h">{i + 1}. {title}</h2>
       <p>{text}</p>
     </section>
   ))}

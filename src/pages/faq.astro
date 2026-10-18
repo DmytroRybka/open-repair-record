@@ -27,7 +27,7 @@ const faq = [
 ];
 ---
 <Base
-  title="Questions"
+  title="Questions about repair completion reports"
   description="Is this an official standard? What does it cost? Where does my data go? Answers to common questions about Open Repair Record."
   schema={{
     "@type": "FAQPage",
@@ -38,9 +38,10 @@ const faq = [
     <div class="prose">
       <p class="eyebrow">Questions</p>
       <h1>Questions and answers</h1>
+      <p class="lead">Short answers about Open Repair Record and the repair completion reports it helps you write.</p>
       {faq.map(([q, a]) => (
         <section>
-          <h3>{q}</h3>
+          <h2 class="faq-q">{q}</h2>
           <p>{a}</p>
         </section>
       ))}

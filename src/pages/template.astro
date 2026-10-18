@@ -13,12 +13,12 @@ const sections = [
   ["8 · Later additions", ["When, by whom, what (a late reply, a revisit, a correction)"]],
 ] as const;
 ---
-<Base title="Blank template" description="A blank, printable Open Repair Record template for contractors and coordinators who prefer paper." section="build">
+<Base title="Repair completion report template (printable)" description="A free, printable repair completion report template: what was reported, what the contractor did, checks, the resident's answer and the closure." section="build">
   <div class="wrap page-head">
     <div class="no-print">
       <p class="eyebrow">Blank template</p>
-      <h1>Print it, or save it as PDF</h1>
-      <p class="lead">For a job sheet, a clipboard, or a contractor who prefers paper. The same eight parts as the builder.</p>
+      <h1>Repair completion report template</h1>
+      <p class="lead">A blank repair completion report for a job sheet, a clipboard, or a contractor who prefers paper. Print it or save it as PDF; it has the same eight parts as the builder.</p>
       <div class="btn-row" style="margin:20px 0 28px"><PrintButton /><a class="btn btn-quiet" href="/build/">Use the builder instead</a></div>
     </div>
     <article class="report template">
@@ -31,7 +31,7 @@ const sections = [
       </header>
       {sections.map(([title, lines]) => (
         <section>
-          <h3>{title}</h3>
+          <h2 class="tpl-h">{title}</h2>
           {lines.map((l) => <div class="line"><span>{l}</span></div>)}
         </section>
       ))}

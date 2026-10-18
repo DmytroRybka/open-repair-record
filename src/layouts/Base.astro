@@ -19,7 +19,8 @@ const { title, description, noindex = false, section, schema } = Astro.props;
 // The self-hosted copy never loads it.
 const CF_BEACON_TOKEN = ONPREM ? "" : "544975158c7446faa4fa2e87cfd7376a";
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const fullTitle = title.startsWith("Open Repair Record") ? title : `${title} · Open Repair Record`;
+// The brand is added only when it fits in 60 characters and the title does not already carry it.
+const fullTitle = title.includes("Open Repair Record") || title.length + 21 > 60 ? title : `${title} · Open Repair Record`;
 const jsonLd = schema && { "@context": "https://schema.org", "@graph": Array.isArray(schema) ? schema : [schema] };
 const nav = [
   { href: "/guide/", label: "Guide", key: "guide" },
@@ -98,7 +99,7 @@ const nav = [
           )}
         </div>
         <div>
-          <h4>Use it</h4>
+          <p class="footer-label">Use it</p>
           <ul>
             <li><a href="/build/">Create a report</a></li>
             <li><a href="/template/">Blank template</a></li>
@@ -108,11 +109,12 @@ const nav = [
           </ul>
         </div>
         <div>
-          <h4>About</h4>
+          <p class="footer-label">About</p>
           <ul>
             <li><a href="/guide/">The guide</a></li>
             <li><a href="/faq/">Questions</a></li>
             <li><a href="/about/">About</a></li>
+            <li><a href="https://github.com/DmytroRybka/open-repair-record">Source on GitHub</a></li>
             {!ONPREM && <li><a href="/impressum/">Impressum</a></li>}
             <li><a href="/privacy/">Privacy</a></li>
           </ul>
