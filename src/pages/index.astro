@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import { EXAMPLES } from "../examples";
+import LoopDiagram from "../components/LoopDiagram.astro";
 
 const parts = [
   ["What was reported", "Where, when, and the symptom in the reporter's words. Kept apart from the diagnosis."],
@@ -89,6 +90,17 @@ const principles = [
           <p class="muted" style="margin:0">A new contractor, a new manager, a new system: the record travels as a PDF or a JSON file.</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 style="margin-top:0">How the loop closes</h2>
+      <p class="muted" style="max-width:46rem">
+        Each person adds their own part to one record. The job closes on the resident's answer, not on the contractor's
+        word, and a "not fixed" sends it back round.
+      </p>
+      <LoopDiagram />
     </div>
   </section>
 
