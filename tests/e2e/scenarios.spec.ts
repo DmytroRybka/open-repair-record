@@ -79,6 +79,11 @@ test("3 · no reply stays no reply; claiming a confirmation is a contradiction",
   await field(page, "closure", "Why").selectOption("work_reported_done_no_reply");
   await expect(finding(page, "confirmed-without-yes")).toHaveCount(0);
 
+  // The resident message opens in WhatsApp, with the brand's icon drawn inline (nothing loaded from elsewhere).
+  const wa = page.getByRole("link", { name: "Open in WhatsApp" });
+  await expect(wa).toHaveAttribute("href", /^https:\/\/wa\.me\/\?text=/);
+  await expect(wa.locator("svg path")).toHaveCount(1);
+
   await page.getByRole("tab", { name: "Report" }).click();
   await expect(page.locator(".report")).toContainText("No reply is recorded as no reply. It is not a confirmation.");
   await expect(page.locator(".report")).toContainText("Did not cover: Did not inspect the unit.");

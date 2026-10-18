@@ -7,6 +7,12 @@ import { EXAMPLES } from "../../examples";
     <p class="eyebrow">Examples</p>
     <h1>Repair completion report examples</h1>
     <p class="lead">Five fictional repairs, each written up as a complete repair completion report. Each is a record you can read, print, download as JSON or open in the builder. All names, companies and addresses are invented.</p>
+    <p style="max-width:46rem">
+      Each example shows one situation that ordinary completion reports handle badly: a repair the resident confirms,
+      a temporary fix with work still to do, a resident who never answers, a fault that comes back after the job was
+      closed, and a visit where nobody let the contractor in. Read them to see how each part of the record is filled
+      in, then open one in the builder and change it into your own job.
+    </p>
     <div class="grid grid-2" style="margin-top:28px">
       {EXAMPLES.map((e, i) => (
         <a class="card card-link" href={`/examples/${e.slug}/`}>

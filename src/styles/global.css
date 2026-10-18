@@ -264,3 +264,8 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--a
 .card-h, .faq-q, .mistake-h { font-size: 1.15rem; margin: 1.6em 0 0.5em; letter-spacing: -0.01em; }
 .card .card-h { margin-top: 0; }
 .report h2.tpl-h { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent-ink); margin: 0 0 8px; padding-bottom: 4px; border-bottom: 1px solid var(--line); }
+
+/* "Open in WhatsApp": the brand's green, as WhatsApp's own share buttons use it. */
+.btn-whatsapp { color: #128c4b; border-color: #b7e8cb; background: #effaf3; }
+.btn-whatsapp:hover { color: #0b6b38; border-color: #25d366; background: #e2f7ea; }
+.btn-whatsapp .wa-icon { color: #25d366; flex: none; }

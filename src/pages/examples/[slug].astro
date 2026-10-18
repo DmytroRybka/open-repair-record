@@ -19,7 +19,7 @@ const next = EXAMPLES[(i + 1) % EXAMPLES.length]!;
       <h1>{example.name}</h1>
       <p class="lead">{example.lesson}</p>
       <div class="btn-row" style="margin:20px 0 28px">
-        <a class="btn btn-primary" href={`/build/?example=${example.slug}`}>Open in the builder</a>
+        <a class="btn btn-primary" href={`/build/?example=${example.slug}`} rel="nofollow">Open in the builder</a>
         <a class="btn" href={`/examples/${example.slug}.json`} download>Download JSON</a>
         <PrintButton />
       </div>
