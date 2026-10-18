@@ -3,7 +3,8 @@
 #   docker build -t open-repair-record-editor .
 #   docker run -d -p 8080:8080 --read-only --tmpfs /tmp open-repair-record-editor
 
-FROM node:20-alpine AS build
+# The static files are the same for every platform, so they are built once, natively; only nginx is per platform.
+FROM --platform=$BUILDPLATFORM node:20-alpine AS build
 WORKDIR /src
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --no-audit --no-fund
