@@ -1,0 +1,30 @@
+name: Publish the Python library to PyPI
+
+# Trusted publishing: no token in the repository. PyPI accepts the upload because this workflow, in this repository,
+# is registered as the project's trusted publisher (pypi.org -> Publishing -> add a pending publisher:
+# owner DmytroRybka, repository open-repair-record, workflow publish-python.yml, environment pypi).
+on:
+  push:
+    tags: ["python-v*"]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    if: ${{ !github.event.repository.private }}
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install pytest build
+      - run: pytest -q
+        working-directory: packages/python
+      - run: python -m build
+        working-directory: packages/python
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: packages/python/dist/
