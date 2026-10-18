@@ -6,7 +6,7 @@ import Base from "../layouts/Base.astro";
     <div class="prose">
       <p class="eyebrow">Privacy</p>
       <h1>Privacy notice</h1>
-      <p class="lead">The short version: no account, no cookies, no analytics, and the builder never sends what you type anywhere.</p>
+      <p class="lead">The short version: no account, no cookies, page views counted without tracking you, and the builder never sends what you type anywhere.</p>
 
       <h2>Who is responsible</h2>
       <p>
@@ -33,10 +33,20 @@ import Base from "../layouts/Base.astro";
         <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">privacy statement</a>.
       </p>
 
+      <h2>Counting visits</h2>
+      <p>
+        To see which pages are read and where visitors come from, we use Cloudflare Web Analytics, a service of
+        Cloudflare, Inc., USA. A small script reports each page view: the page, the referring site, and the browser,
+        device type and country derived from the request. It sets no cookies, does not use local storage, does not
+        follow you across sites and does not build a profile; we see only totals. The builder's content is never part
+        of it. The legal basis is our legitimate interest in knowing how the site is used (Art. 6(1)(f) GDPR). See
+        Cloudflare's <a href="https://www.cloudflare.com/privacypolicy/">privacy policy</a>.
+      </p>
+
       <h2>What we do not do</h2>
       <ul>
-        <li>No cookies, no tracking, no analytics, no advertising.</li>
-        <li>No fonts, scripts or images loaded from other services.</li>
+        <li>No cookies, no cross-site tracking, no advertising.</li>
+        <li>No fonts or images loaded from other services; the only outside script is the visit counter above.</li>
         <li>No newsletter and no forms that send data to us. If you e-mail us, we use your message only to reply.</li>
       </ul>
 
@@ -47,7 +57,7 @@ import Base from "../layouts/Base.astro";
         authority, for example the one for Baden-Württemberg (Landesbeauftragter für den Datenschutz und die
         Informationsfreiheit Baden-Württemberg).
       </p>
-      <p class="small muted">Last updated: 18 October 2026.</p>
+      <p class="small muted">Last updated: 18 October 2026 (visit counting added).</p>
     </div>
   </div>
 </Base>

@@ -15,7 +15,7 @@ interface Props {
 const { title, description, noindex = false, section, schema } = Astro.props;
 // Cloudflare Web Analytics: cookie-less, aggregated page views. Empty = no beacon on the page. If you change this,
 // keep the privacy page (src/pages/privacy.astro) in step.
-const CF_BEACON_TOKEN = "";
+const CF_BEACON_TOKEN = "544975158c7446faa4fa2e87cfd7376a";
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const fullTitle = title.startsWith("Open Repair Record") ? title : `${title} · Open Repair Record`;
 const jsonLd = schema && { "@context": "https://schema.org", "@graph": Array.isArray(schema) ? schema : [schema] };
@@ -107,7 +107,7 @@ const nav = [
       </div>
     </footer>
     {CF_BEACON_TOKEN && (
-      <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: CF_BEACON_TOKEN })}></script>
+      <script is:inline type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: CF_BEACON_TOKEN })}></script>
     )}
   </body>
 </html>
