@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { ONPREM, VERSION } from "../lib/edition";
 
 interface Props {
   title: string;
@@ -15,7 +16,8 @@ interface Props {
 const { title, description, noindex = false, section, schema } = Astro.props;
 // Cloudflare Web Analytics: cookie-less, aggregated page views. Empty = no beacon on the page. If you change this,
 // keep the privacy page (src/pages/privacy.astro) in step.
-const CF_BEACON_TOKEN = "544975158c7446faa4fa2e87cfd7376a";
+// The self-hosted copy never loads it.
+const CF_BEACON_TOKEN = ONPREM ? "" : "544975158c7446faa4fa2e87cfd7376a";
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const fullTitle = title.startsWith("Open Repair Record") ? title : `${title} · Open Repair Record`;
 const jsonLd = schema && { "@context": "https://schema.org", "@graph": Array.isArray(schema) ? schema : [schema] };
@@ -33,23 +35,27 @@ const nav = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex" />}
+    {!ONPREM && <link rel="canonical" href={canonical} />}
+    {(noindex || ONPREM) && <meta name="robots" content="noindex" />}
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#0e6b58" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Open Repair Record" />
-    <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL("/og.png", Astro.site)} />
-    <meta name="twitter:card" content="summary_large_image" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
-    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    {!ONPREM && (
+      <>
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Open Repair Record" />
+        <meta property="og:title" content={fullTitle} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonical} />
+        <meta property="og:image" content={new URL("/og.png", Astro.site)} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="sitemap" href="/sitemap-index.xml" />
+      </>
+    )}
+    {jsonLd && !ONPREM && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
@@ -84,6 +90,12 @@ const nav = [
             Initiated by the <a href="https://pmfriend.com/">PMFriend</a> team. Text and examples:
             <a href="https://creativecommons.org/licenses/by/4.0/" rel="license">CC BY 4.0</a>. Code and schema: MIT.
           </p>
+          {ONPREM && (
+            <p class="onprem-note" data-edition="onprem">
+              Self-hosted copy, version {VERSION}. It runs inside your organisation's network and makes no requests
+              outside it. The public site is <a href="https://openrepairrecord.com/">openrepairrecord.com</a>.
+            </p>
+          )}
         </div>
         <div>
           <h4>Use it</h4>
@@ -92,6 +104,7 @@ const nav = [
             <li><a href="/template/">Blank template</a></li>
             <li><a href="/examples/">Examples</a></li>
             <li><a href="/format/">Format 1.0 and schema</a></li>
+            <li><a href="/self-host/">Run it inside your company</a></li>
           </ul>
         </div>
         <div>
@@ -100,7 +113,7 @@ const nav = [
             <li><a href="/guide/">The guide</a></li>
             <li><a href="/faq/">Questions</a></li>
             <li><a href="/about/">About</a></li>
-            <li><a href="/impressum/">Impressum</a></li>
+            {!ONPREM && <li><a href="/impressum/">Impressum</a></li>}
             <li><a href="/privacy/">Privacy</a></li>
           </ul>
         </div>

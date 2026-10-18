@@ -51,6 +51,19 @@ Code layout:
 | `src/components/Builder.tsx` | The builder (React island) |
 | `src/components/ReportView.tsx` | The report, rendered at build time on example pages and live in the builder |
 
+## Self-hosted (inside a company network)
+
+The same site without the visit counter and without any request outside its own server:
+
+```bash
+docker run -d -p 8080:8080 --read-only --tmpfs /tmp ghcr.io/dmytrorybka/open-repair-record-editor:1.0
+```
+
+Or `npm run build:onprem` and serve `dist/` from any web server (a `web.config` for IIS is included). A version tag
+(`v1.0.0`) publishes the image and a zip to GitHub Releases (`.github/workflows/release.yml`).
+`npm run test:onprem` proves every page makes no outside request and the editor works under the image's CSP.
+After changing the schema, run `npm run gen:validator`: the validator is precompiled so the browser never needs eval.
+
 ## Hosting
 
 GitHub Pages, from `.github/workflows/pages.yml`, on the custom domain in `public/CNAME`.

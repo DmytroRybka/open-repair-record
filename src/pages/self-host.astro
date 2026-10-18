@@ -1,0 +1,70 @@
+---
+import Base from "../layouts/Base.astro";
+import { VERSION } from "../lib/edition";
+
+const IMAGE = "ghcr.io/dmytrorybka/open-repair-record-editor";
+const RELEASES = "https://github.com/DmytroRybka/open-repair-record/releases";
+const major = VERSION.split(".").slice(0, 2).join(".");
+---
+<Base
+  title="Run Open Repair Record inside your company"
+  description="Host the Open Repair Record editor and guide on your own server, behind your firewall: one Docker command or a folder of static files. No internet access, no telemetry."
+>
+  <div class="wrap page-head">
+    <div class="prose" style="max-width:820px">
+      <p class="eyebrow">Self-hosted</p>
+      <h1>Run it inside your company</h1>
+      <p class="lead">
+        The editor, the guide and the examples can run on your own server, behind your firewall. It is the same site
+        as openrepairrecord.com, minus the visit counter, and it never needs the internet.
+      </p>
+
+      <h2>What you get</h2>
+      <ul>
+        <li><strong>The whole site:</strong> the report editor with its check, print and PDF, JSON download and upload, the guide, the five examples, the blank template and the format with its JSON Schema.</li>
+        <li><strong>No outside requests.</strong> No analytics, no fonts, no scripts or images from anywhere else. Our tests load every page and fail if a single request leaves the server.</li>
+        <li><strong>No server-side data.</strong> It is a set of static files. Records are written in each person's browser and saved as files on their device; nothing is stored on your server.</li>
+        <li><strong>No account, no licence key, no telemetry.</strong> MIT licence for the code, CC BY 4.0 for the text.</li>
+      </ul>
+
+      <h2>Option 1: Docker</h2>
+      <p>One container, an unprivileged nginx on port 8080:</p>
+      <pre><code>{`docker run -d --name open-repair-record -p 8080:8080 --read-only --tmpfs /tmp \\
+  ${IMAGE}:${major}`}</code></pre>
+      <p>
+        Then open <code>http://your-server:8080/build/</code>. The container runs as a non-root user, works with a
+        read-only file system, answers <code>/healthz</code> for your load balancer, and sends a strict
+        Content-Security-Policy that only allows its own origin.
+      </p>
+      <p class="small muted">
+        Tags: <code>{major}</code> follows the latest {major}.x release; <code>{VERSION}</code> stays fixed. Images are
+        built for amd64 and arm64 from this repository by GitHub Actions.
+      </p>
+
+      <h2>Option 2: a folder of files</h2>
+      <p>
+        Download <code>open-repair-record-onprem-{VERSION}.zip</code> from the
+        <a href={RELEASES}>releases page</a>, check it against the published SHA-256, and unpack it into any web
+        server's document root: IIS, nginx, Apache, or an internal static host.
+      </p>
+      <ul>
+        <li><strong>IIS:</strong> the zip includes a <code>web.config</code> with the file types and the 404 page.</li>
+        <li><strong>nginx or Apache:</strong> serve the folder as it is; <code>/build/</code> maps to <code>build/index.html</code>.</li>
+        <li>It must be served over HTTP or HTTPS, not opened from the file system, because the editor's script is a module.</li>
+      </ul>
+
+      <h2>Option 3: build it yourself</h2>
+      <p>From a clone of the repository, with Node.js 20 or newer:</p>
+      <pre><code>{`npm ci
+npm run build:onprem      # writes the self-hosted copy to dist/`}</code></pre>
+
+      <h2>Good to know</h2>
+      <ul>
+        <li><strong>Drafts are per browser.</strong> Each person's draft lives in their own browser. To share a record, download it as JSON or PDF and keep it where your team keeps documents.</li>
+        <li><strong>Updates.</strong> Every 1.x version only adds; a file written with 1.0 still opens. Pull a newer image or unpack a newer zip; there is nothing to migrate.</li>
+        <li><strong>Your own wording.</strong> The text is CC BY 4.0, so you may adapt the guide to your company. Keep the credit "Open Repair Record, openrepairrecord.com".</li>
+        <li><strong>Questions or a feature your IT team needs?</strong> Write to <a href="mailto:support@pmfriend.com">support@pmfriend.com</a> or open an issue on <a href="https://github.com/DmytroRybka/open-repair-record">GitHub</a>.</li>
+      </ul>
+    </div>
+  </div>
+</Base>

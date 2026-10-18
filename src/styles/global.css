@@ -85,6 +85,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2.5rem 0; }
 .site-footer h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-2); margin: 0 0 8px; }
 .site-footer ul { list-style: none; padding: 0; margin: 0; }
 .site-footer a { color: var(--ink-2); }
+.onprem-note { margin: 10px 0 0; padding: 8px 10px; border: 1px dashed var(--line-2); border-radius: 8px; font-size: 0.85rem; }
 
 /* Buttons */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 8px; border: 1px solid var(--line-2); background: var(--paper); color: var(--ink); font: 600 0.95rem/1.2 var(--sans); padding: 10px 16px; text-decoration: none; cursor: pointer; white-space: nowrap; }

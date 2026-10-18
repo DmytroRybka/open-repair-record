@@ -11,12 +11,14 @@
     "preview": "astro preview",
     "check": "astro check",
     "test": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "build:onprem": "node scripts/build-onprem.mjs",
+    "test:onprem": "playwright test -c playwright.onprem.config.ts",
+    "gen:validator": "node scripts/gen-validator.mjs"
   },
   "dependencies": {
     "@astrojs/react": "4.4.2",
     "@astrojs/sitemap": "3.7.4",
-    "ajv": "8.17.1",
     "astro": "5.18.2",
     "react": "18.3.1",
     "react-dom": "18.3.1"
@@ -26,6 +28,7 @@
     "@playwright/test": "1.56.1",
     "@types/react": "18.3.31",
     "@types/react-dom": "18.3.7",
+    "ajv": "8.17.1",
     "typescript": "5.7.3",
     "vitest": "3.2.7"
   }

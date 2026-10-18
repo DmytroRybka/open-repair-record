@@ -78,3 +78,11 @@ describe("launch-day files", () => {
     expect(parseRecordFile(JSON.stringify(r)).record?.orr_version).toBe("1.0");
   });
 });
+
+describe("the precompiled validator", () => {
+  it("is up to date with the schema (run npm run gen:validator after changing it)", async () => {
+    const { generate, TARGET } = await import("../../scripts/gen-validator.mjs");
+    const { readFileSync } = await import("node:fs");
+    expect(readFileSync(TARGET, "utf8")).toBe(generate());
+  });
+});

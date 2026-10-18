@@ -1,9 +1,11 @@
-import Ajv2020 from "ajv/dist/2020";
-import schema from "../schema/orr-1.0.schema.json";
 import type { RepairRecord } from "./record";
+// Precompiled from the JSON Schema by scripts/gen-validator.mjs: no code is compiled in the browser, so the editor
+// runs under a Content-Security-Policy without 'unsafe-eval'.
+import validator from "./orr-validator.generated.js";
 
-const ajv = new Ajv2020({ allErrors: true, strict: true });
-const validator = ajv.compile<RepairRecord>(schema);
+interface AjvError { instancePath: string; keyword: string; params: Record<string, unknown>; message?: string }
+type Validator = ((data: unknown) => boolean) & { errors?: AjvError[] | null };
+const run = validator as unknown as Validator;
 
 export interface Validation {
   ok: boolean;
@@ -12,8 +14,8 @@ export interface Validation {
 
 /** Validates a parsed file against the ORR 1.0 JSON Schema and explains each problem in a line. */
 export function validateRecord(data: unknown): Validation {
-  const ok = validator(data);
-  const errors = (validator.errors ?? []).map((e) => {
+  const ok = run(data);
+  const errors = (run.errors ?? []).map((e) => {
     const where = e.instancePath ? e.instancePath.slice(1).replaceAll("/", ".") : "the file";
     if (e.keyword === "additionalProperties") {
       return `${where}: unknown field "${(e.params as { additionalProperty: string }).additionalProperty}"`;

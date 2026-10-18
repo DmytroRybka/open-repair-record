@@ -1,8 +1,25 @@
 ---
 import Base from "../layouts/Base.astro";
+import { ONPREM } from "../lib/edition";
 ---
-<Base title="Privacy" description="Privacy notice for openrepairrecord.com: no account, no cookies, no analytics; the builder runs in your browser." noindex>
+<Base title="Privacy" description="Privacy notice for openrepairrecord.com: no account, no cookies, cookie-less visit counting; the builder runs in your browser." noindex>
   <div class="wrap page-head">
+    {ONPREM ? (
+    <div class="prose" data-edition="onprem">
+      <p class="eyebrow">Privacy</p>
+      <h1>This is a self-hosted copy</h1>
+      <p class="lead">
+        Your organisation runs this copy of Open Repair Record on its own server, and is responsible for it.
+      </p>
+      <ul>
+        <li>The pages make <strong>no requests outside your network</strong>: no analytics, no fonts, no scripts or images from anywhere else.</li>
+        <li>What you type into the builder is processed in your browser only. Your draft is kept in your browser's local storage, on your device; it is not stored on the server and not shared with colleagues.</li>
+        <li>Files you open or download (JSON, PDF) are read and written on your device.</li>
+        <li>Like any web server, the server may keep its own access logs. Ask your IT team how they are handled.</li>
+      </ul>
+      <p class="small muted">The authors of Open Repair Record receive nothing from this copy.</p>
+    </div>
+    ) : (
     <div class="prose">
       <p class="eyebrow">Privacy</p>
       <h1>Privacy notice</h1>
@@ -59,5 +76,6 @@ import Base from "../layouts/Base.astro";
       </p>
       <p class="small muted">Last updated: 18 October 2026 (visit counting added).</p>
     </div>
+    )}
   </div>
 </Base>
