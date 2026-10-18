@@ -176,6 +176,15 @@ td code { white-space: nowrap; }
 
 /* --------------------------------------------------------------------------------------------- */
 /* Builder */
+.start-bar { display: grid; gap: 12px 24px; align-items: center; background: var(--accent-soft); border: 1px solid #bcdcd2; border-left: 4px solid var(--accent); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 20px; }
+@media (min-width: 1024px) { .start-bar { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); } }
+.start-bar h2 { font-size: 1.05rem; margin: 0 0 2px; color: var(--accent-ink); }
+.start-bar p { margin: 0; font-size: 0.88rem; color: var(--ink-2); }
+.start-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: 600 0.88rem/1.2 var(--sans); padding: 8px 13px; border-radius: 999px; border: 1px solid #a9d1c4; background: var(--paper); color: var(--accent-ink); cursor: pointer; }
+.chip:hover { border-color: var(--accent); }
+.chip.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.chip-blank { background: transparent; border-style: dashed; color: var(--ink-2); border-color: var(--line-2); }
 .builder { display: grid; gap: 24px; align-items: start; }
 @media (min-width: 1024px) { .builder { grid-template-columns: minmax(0, 1fr) 360px; } }
 .builder-side { display: grid; gap: 16px; }

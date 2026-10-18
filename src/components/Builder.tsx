@@ -63,6 +63,7 @@ export default function Builder() {
   const [ready, setReady] = useState(false);
   const [view, setView] = useState<"form" | "report">("form");
   const [banner, setBanner] = useState<Banner | null>(null);
+  const [fromExample, setFromExample] = useState<string | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -71,13 +72,14 @@ export default function Builder() {
     const draft = loadDraft();
     if (example && (!draft || !meaningful(draft))) {
       setRecord(structuredClone(example.record));
+      setFromExample(example.slug);
       setBanner({ kind: "ok", text: `Loaded the example "${example.name}". Change anything you like.` });
     } else if (example && draft) {
       setRecord(draft);
       setBanner({
         kind: "info",
         text: `Your saved draft is open. Replace it with the example "${example.name}"?`,
-        action: { label: "Replace my draft", run: () => { setRecord(structuredClone(example.record)); setBanner(null); } },
+        action: { label: "Replace my draft", run: () => { setRecord(structuredClone(example.record)); setFromExample(example.slug); setBanner(null); } },
       });
     } else if (draft) {
       setRecord(draft);
@@ -98,8 +100,8 @@ export default function Builder() {
       return next;
     });
 
-  const replaceWith = (next: RepairRecord, okText: string) => {
-    const go = () => { setRecord(next); setView("form"); setBanner({ kind: "ok", text: okText }); };
+  const replaceWith = (next: RepairRecord, okText: string, slug: string | null = null) => {
+    const go = () => { setRecord(next); setFromExample(slug); setView("form"); setBanner({ kind: "ok", text: okText }); };
     if (meaningful(record)) {
       setBanner({ kind: "info", text: "This replaces the record you are working on.", action: { label: "Replace it", run: go } });
     } else {
@@ -155,6 +157,28 @@ export default function Builder() {
   };
 
   return (
+    <>
+    <section className="start-bar no-print" aria-labelledby="start-title">
+      <div className="start-text">
+        <h2 id="start-title">Start from an example</h2>
+        <p>Open a worked example and change it, or start with a blank record.</p>
+      </div>
+      <div className="start-actions">
+        {EXAMPLES.map((ex) => (
+          <button
+            key={ex.slug}
+            type="button"
+            className={`chip${fromExample === ex.slug ? " is-on" : ""}`}
+            aria-pressed={fromExample === ex.slug}
+            title={ex.lesson}
+            onClick={() => replaceWith(structuredClone(ex.record), `Loaded the example "${ex.name}". Change anything you like.`, ex.slug)}
+          >
+            {ex.name}
+          </button>
+        ))}
+        <button type="button" className="chip chip-blank" onClick={() => replaceWith(starter(), "Started a new record.")}>New blank record</button>
+      </div>
+    </section>
     <div className="builder">
       <div className="builder-main">
         <div className="toolbar">
@@ -211,31 +235,9 @@ export default function Builder() {
       <aside className="builder-side no-print" aria-label="Check and tools">
         <CheckPanel findings={findings} goTo={goTo} />
         <MessagesPanel record={record} />
-        <div className="panel">
-          <h2>Start from</h2>
-          <div className="field">
-            <span>An example</span>
-            <select
-              aria-label="Start from an example"
-              value=""
-              onChange={(e) => {
-                const ex = exampleBySlug(e.target.value);
-                if (ex) replaceWith(structuredClone(ex.record), `Loaded the example "${ex.name}".`);
-              }}
-            >
-              <option value="">Choose an example…</option>
-              {EXAMPLES.map((ex) => <option key={ex.slug} value={ex.slug}>{ex.name}</option>)}
-            </select>
-          </div>
-          <div className="btn-row" style={{ marginTop: 10 }}>
-            <button className="btn btn-small" onClick={() => replaceWith(starter(), "Started a new record.")}>New blank record</button>
-          </div>
-          <p className="small muted" style={{ margin: "10px 0 0" }}>
-            Your draft is kept in this browser only. Nothing is uploaded.
-          </p>
-        </div>
       </aside>
     </div>
+    </>
   );
 }
 
