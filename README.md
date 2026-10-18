@@ -51,6 +51,17 @@ Code layout:
 | `src/components/Builder.tsx` | The builder (React island) |
 | `src/components/ReportView.tsx` | The report, rendered at build time on example pages and live in the builder |
 
+## The npm package: library and CLI
+
+`packages/orr` is published to npm as [`open-repair-record`](https://www.npmjs.com/package/open-repair-record): the
+core the editor runs on (parse, validate, check, messages, types) and the `orr` command line.
+
+```bash
+npx open-repair-record check records/
+```
+
+Build it with `node packages/orr/build.mjs`; `npm publish` in `packages/orr` builds it first.
+
 ## Self-hosted (inside a company network)
 
 The same site without the visit counter and without any request outside its own server:

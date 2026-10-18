@@ -1,0 +1,100 @@
+---
+import Base from "../layouts/Base.astro";
+import { run } from "../../packages/orr/src/run";
+import { exampleBySlug } from "../examples";
+
+// The terminal below is real output of the CLI, produced at build time from a record with a mistake in it.
+const record = structuredClone(exampleBySlug("ac-no-reply")!.record);
+record.closure!.reason_code = "confirmed_by_resident";
+delete record.checks[0]!.result;
+let output = "";
+run(["check", "-"], {
+  out: (s) => { output += s + "\n"; },
+  err: (s) => { output += s + "\n"; },
+  columns: 96,
+  color: false,
+  readStdin: () => JSON.stringify(record),
+});
+output = output.replace("Checking - ", "Checking Q-1204.orr.json ").trimEnd();
+const library = `import { parse, check, residentRequest } from "open-repair-record";
+
+const { record, errors } = parse(text);   // JSON text -> a record, or the schema errors in plain words
+if (record) {
+  for (const f of check(record)) {        // contradiction | warning | tip, with the part it is about
+    console.log(f.level, f.section, f.message);
+  }
+  console.log(residentRequest(record));   // a neutral yes/no question for the resident
+}`;
+---
+<Base
+  title="Open Repair Record CLI and TypeScript library"
+  description="Check repair completion records from the command line or your own code: the orr CLI and the open-repair-record library for TypeScript and JavaScript. MIT."
+>
+  <div class="wrap page-head">
+    <div class="prose" style="max-width:860px">
+      <p class="eyebrow">Tools</p>
+      <h1>The command line and the library</h1>
+      <p class="lead">
+        Check records where they live: in a folder of exports, in CI before an import, or in your own software. The
+        same code runs the editor, so a file gets the same answers everywhere.
+      </p>
+
+      <h2>orr, the command line</h2>
+      <p>Validates a file against the JSON Schema and runs the editor's checks. Node.js 18 or newer:</p>
+      <pre><code>npx open-repair-record check Q-1204.orr.json</code></pre>
+    </div>
+
+    <div class="term" aria-label="Example output of orr check">
+      <div class="term-bar"><span></span><span></span><span></span><b>orr check</b></div>
+      <pre><code><span class="prompt">$ </span>npx open-repair-record check Q-1204.orr.json
+{output}</code></pre>
+    </div>
+
+    <div class="prose" style="max-width:860px">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Command</th><th>Does</th></tr></thead>
+          <tbody>
+            <tr><td><code>orr check &lt;file|folder|-&gt;</code></td><td>Schema and checks. A folder means every <code>*.json</code> in it; <code>-</code> reads standard input.</td></tr>
+            <tr><td><code>orr validate &lt;file|folder|-&gt;</code></td><td>The JSON Schema only.</td></tr>
+            <tr><td><code>orr render &lt;file&gt; -o report.html</code></td><td>The readable report as one standalone HTML page, to print or save as PDF.</td></tr>
+            <tr><td><code>orr new -o file.json</code></td><td>An empty record to fill in.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        <code>--json</code> gives machine-readable output; <code>--strict</code> also fails on missing parts. Exit code
+        1 means a file is invalid or contradicts itself, so <code>orr check exports/</code> can stop a pipeline.
+        Install it for good with <code>npm install -g open-repair-record</code>.
+      </p>
+
+      <h2>open-repair-record, the library</h2>
+      <p>TypeScript types included, no dependencies; Node.js, browsers, Deno and Bun.</p>
+      <pre><code>npm install open-repair-record</code></pre>
+      <pre><code>{library}</code></pre>
+      <p>
+        Also: <code>validate</code>, <code>clean</code>, <code>emptyRecord</code>, <code>contractorRequest</code>, the
+        labels for every code and the JSON Schema (<code>open-repair-record/schema</code>). The validator is
+        precompiled, so it needs no <code>eval</code> and runs under a strict Content-Security-Policy.
+      </p>
+
+      <h2>More</h2>
+      <ul>
+        <li><a href="/self-host/">Run the editor inside your company</a>: Docker or a folder of files.</li>
+        <li><a href="/format/">Format 1.0 and the JSON Schema</a>.</li>
+        <li>Libraries for Python and .NET are planned. Tell us which you need first: <a href="mailto:support@pmfriend.com">support@pmfriend.com</a>.</li>
+        <li>Source and issues: <a href="https://github.com/DmytroRybka/open-repair-record">GitHub</a>. MIT licence.</li>
+      </ul>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .term { max-width: 1000px; margin: 1.2rem 0 1.6rem; background: #0f1714; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgb(16 24 20 / 18%); }
+  .term-bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; background: #18221e; border-bottom: 1px solid #22302a; }
+  .term-bar span { width: 11px; height: 11px; border-radius: 50%; background: #3a4a43; }
+  .term-bar span:nth-child(1) { background: #ef5f57; } .term-bar span:nth-child(2) { background: #f5bd2f; } .term-bar span:nth-child(3) { background: #28c840; }
+  .term-bar b { margin-left: 8px; font: 500 0.8rem var(--mono); color: #9fb3aa; }
+  .term pre { margin: 0; border-radius: 0; background: transparent; font-size: 0.78rem; line-height: 1.45; color: #dfeae5; }
+  .term .prompt { color: #8fd3bf; }
+</style>

@@ -172,7 +172,7 @@ test("the example pages render the report without JavaScript", async ({ browser 
 
 test("no page scrolls sideways on a phone", async ({ page }, info) => {
   test.skip(info.project.name !== "phone");
-  for (const path of ["/", "/guide/", "/guide/parts/", "/examples/ac-no-reply/", "/build/", "/format/", "/template/"]) {
+  for (const path of ["/", "/guide/", "/guide/parts/", "/examples/ac-no-reply/", "/build/", "/format/", "/template/", "/tools/", "/self-host/"]) {
     await page.goto(path);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     expect(overflow, path).toBeLessThanOrEqual(0);
