@@ -86,3 +86,4 @@ describe("the precompiled validator", () => {
     expect(readFileSync(TARGET, "utf8")).toBe(generate());
   });
 });
+

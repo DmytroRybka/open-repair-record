@@ -10,11 +10,12 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "vitest run",
+    "test": "vitest run && node packages/orr/build.mjs && node scripts/gen-vectors.mjs --check",
     "test:e2e": "playwright test",
     "build:onprem": "node scripts/build-onprem.mjs",
     "test:onprem": "playwright test -c playwright.onprem.config.ts",
-    "gen:validator": "node scripts/gen-validator.mjs"
+    "gen:validator": "node scripts/gen-validator.mjs",
+    "gen:vectors": "node packages/orr/build.mjs && node scripts/gen-vectors.mjs"
   },
   "dependencies": {
     "@astrojs/react": "4.4.2",
