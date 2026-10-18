@@ -5,7 +5,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import Ajv2020 from "ajv/dist/2020.js";
 import standaloneCode from "ajv/dist/standalone/index.js";
 
-export const TARGET = new URL("../src/lib/orr-validator.generated.js", import.meta.url);
+export const TARGET = new URL("../packages/orr/src/core/orr-validator.generated.js", import.meta.url);
 
 export function generate() {
   const schema = JSON.parse(readFileSync(new URL("../src/schema/orr-1.0.schema.json", import.meta.url), "utf8"));
@@ -16,5 +16,5 @@ export function generate() {
 
 if (process.argv[1]?.endsWith("gen-validator.mjs")) {
   writeFileSync(TARGET, generate());
-  console.log("src/lib/orr-validator.generated.js written");
+  console.log("packages/orr/src/core/orr-validator.generated.js written");
 }

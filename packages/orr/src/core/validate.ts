@@ -1,11 +1,7 @@
 import type { RepairRecord } from "./record";
 // Precompiled from the JSON Schema by scripts/gen-validator.mjs: no code is compiled in the browser, so the editor
 // runs under a Content-Security-Policy without 'unsafe-eval'.
-import validator from "./orr-validator.generated.js";
-
-interface AjvError { instancePath: string; keyword: string; params: Record<string, unknown>; message?: string }
-type Validator = ((data: unknown) => boolean) & { errors?: AjvError[] | null };
-const run = validator as unknown as Validator;
+import run from "./orr-validator.generated.js";
 
 export interface Validation {
   ok: boolean;
@@ -24,6 +20,7 @@ export function validateRecord(data: unknown): Validation {
       return `${where}: must be one of ${(e.params as { allowedValues: string[] }).allowedValues.join(", ")}`;
     }
     if (e.keyword === "pattern") return `${where}: not a date like 2026-10-12 or 2026-10-12T14:20`;
+    if (e.keyword === "required") return `${where}: the required part "${(e.params as { missingProperty: string }).missingProperty}" is missing`;
     if (e.keyword === "false schema" && where === "closure") return "an open record cannot have a closure";
     if (e.keyword === "if") return null;
     return `${where}: ${e.message ?? "is not valid"}`;
