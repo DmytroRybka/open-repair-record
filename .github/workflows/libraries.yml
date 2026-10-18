@@ -24,6 +24,11 @@ jobs:
       - name: Builds a wheel and an sdist
         run: python -m build
         working-directory: packages/python
+      - if: matrix.python == '3.13'
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-dist
+          path: packages/python/dist/
 
   dotnet:
     runs-on: ubuntu-latest
@@ -35,3 +40,7 @@ jobs:
       - run: dotnet test packages/dotnet/tests/OpenRepairRecord.Tests --nologo
       - name: Packs the NuGet package
         run: dotnet pack packages/dotnet/src/OpenRepairRecord -c Release -o out --nologo
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nuget-package
+          path: out/*.nupkg
