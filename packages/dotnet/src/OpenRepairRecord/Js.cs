@@ -13,9 +13,7 @@ namespace OpenRepairRecord
         /// <summary>JavaScript's whitespace (String.prototype.trim and \s).</summary>
         public static readonly char[] Whitespace =
         {
-            '\u0009', '\u000A', '\u000B', '\u000C', '\u000D', ' ', ' ', ' ', ' ', ' ',
-            ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
-            ' ', ' ', ' ', '　', '﻿',
+            (char)0x0009, (char)0x000A, (char)0x000B, (char)0x000C, (char)0x000D, (char)0x0020, (char)0x00A0, (char)0x1680, (char)0x2000, (char)0x2001, (char)0x2002, (char)0x2003, (char)0x2004, (char)0x2005, (char)0x2006, (char)0x2007, (char)0x2008, (char)0x2009, (char)0x200A, (char)0x2028, (char)0x2029, (char)0x202F, (char)0x205F, (char)0x3000, (char)0xFEFF,
         };
 
         public static string Trim(string s) => s.Trim(Whitespace);
