@@ -149,7 +149,7 @@ describe("clean", () => {
     r.id = " ";
     const out = clean(r);
     expect(out).toEqual({
-      orr_version: "0.1", context: { area: "unit" }, work: [], checks: [], evidence: [],
+      orr_version: "1.0", context: { area: "unit" }, work: [], checks: [], evidence: [],
       resident: { status: "not_asked" }, open_items: [], status: "open", history: [],
     });
   });

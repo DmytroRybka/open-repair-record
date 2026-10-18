@@ -1,15 +1,15 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://openrepairrecord.com/schema/orr-0.1.schema.json",
-  "title": "Open Repair Record 0.1",
+  "$id": "https://openrepairrecord.com/schema/orr-1.0.schema.json",
+  "title": "Open Repair Record 1.0",
   "description": "One repair record: what was reported, what the contractor says was done, what was checked and by whom, the resident's answer, what is still open, who closed the record and why, and later additions. Each source of information stays separate; there is no single 'done' flag. Licence: MIT.",
   "type": "object",
   "required": ["orr_version", "context", "work", "checks", "evidence", "resident", "open_items", "status", "history"],
   "additionalProperties": false,
   "properties": {
     "orr_version": {
-      "const": "0.1",
-      "description": "The version of this format. Always \"0.1\" for files written against this schema, so a reader knows which rules apply."
+      "const": "1.0",
+      "description": "The version of this format. Always \"1.0\" for files written against this schema, so a reader knows which rules apply."
     },
     "id": {
       "type": "string",

@@ -40,7 +40,7 @@ describe("the JSON Schema", () => {
 describe("reading a file", () => {
   it("explains a file that is not JSON or not a record", () => {
     expect(parseRecordFile("{oops").errors[0]).toMatch(/not valid JSON/);
-    expect(parseRecordFile('{"hello": 1}').errors[0]).toMatch(/not an Open Repair Record 0.1/);
+    expect(parseRecordFile('{"hello": 1}').errors[0]).toMatch(/not an Open Repair Record 1.0/);
   });
 
   it("reads an example back", () => {
@@ -69,5 +69,12 @@ describe("messages", () => {
     const text = residentRequest(exampleBySlug("ac-no-reply")!.record);
     expect(text).toContain("Bluepoint Cooling reports the work was done on 11 Oct 2026, 10:30");
     expect(text).toMatch(/reply 1 for yes or 2 for no/);
+  });
+});
+
+describe("launch-day files", () => {
+  it('opens a file saved with the pre-release number "0.1" as 1.0', () => {
+    const r = { ...structuredClone(exampleBySlug("kitchen-tap")!.record), orr_version: "0.1" };
+    expect(parseRecordFile(JSON.stringify(r)).record?.orr_version).toBe("1.0");
   });
 });

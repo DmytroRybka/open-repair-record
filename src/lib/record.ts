@@ -1,5 +1,5 @@
 /**
- * Open Repair Record 0.1: the shape of one repair record.
+ * Open Repair Record 1.0: the shape of one repair record.
  *
  * Each source of information stays separate: what was reported, what the contractor says, what was checked and
  * by whom, what the resident answered, and who closed the record and why. There is deliberately no single "done"
@@ -9,7 +9,7 @@
  * property), optionally with a zone offset. `timezone` names the zone when it matters.
  */
 
-export const ORR_VERSION = "0.1" as const;
+export const ORR_VERSION = "1.0" as const;
 
 export type Area = "unit" | "common_area";
 export type ReporterRole = "resident" | "owner" | "staff" | "inspection" | "other";

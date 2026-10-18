@@ -11,7 +11,7 @@ Site: <https://openrepairrecord.com>
 - **Builder** (`/build/`): one form, a live check for contradictions and missing parts, print / PDF, JSON download and
   upload, and copy-ready messages for the contractor and the resident. Everything runs in the browser; nothing is
   uploaded.
-- **Format 0.1** (`/format/`): a small JSON format with a JSON Schema (draft 2020-12), five fictional example records,
+- **Format 1.0** (`/format/`): a small JSON format with a JSON Schema (draft 2020-12), five fictional example records,
   and an informal mapping to an existing housing repair schema.
 
 Open Repair Record is a practical guide and toolkit, not an official standard.
@@ -46,7 +46,7 @@ Code layout:
 | `src/lib/checks.ts` | "Check a report": contradictions, missing parts, tips |
 | `src/lib/messages.ts` | Messages asking the contractor or the resident for what is missing |
 | `src/lib/validate.ts` | JSON Schema validation (Ajv) |
-| `src/schema/orr-0.1.schema.json` | The schema, served at `/schema/orr-0.1.schema.json` |
+| `src/schema/orr-1.0.schema.json` | The schema, served at `/schema/orr-1.0.schema.json` |
 | `src/examples/*.json` | The five fictional examples, served at `/examples/<slug>.json` |
 | `src/components/Builder.tsx` | The builder (React island) |
 | `src/components/ReportView.tsx` | The report, rendered at build time on example pages and live in the builder |

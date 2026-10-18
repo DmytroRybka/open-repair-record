@@ -17,7 +17,7 @@ import { parseRecordFile } from "../lib/validate";
 import { EXAMPLES, exampleBySlug } from "../examples";
 import ReportView from "./ReportView";
 
-const DRAFT_KEY = "orr.draft.v0.1";
+const DRAFT_KEY = "orr.draft.v1";
 
 /** A new record opens with one blank statement and one blank check: the quick path for a simple job. */
 function starter(): RepairRecord {

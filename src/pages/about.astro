@@ -7,14 +7,44 @@ import Base from "../layouts/Base.astro";
       <p class="eyebrow">About</p>
       <h1>Why this exists</h1>
       <p class="lead">
-        A slow repair is frustrating. A repair marked "done" that nobody checked is worse: the resident finds out when
-        the problem comes back, and the record says everything was fine.
+        "Completed" means something different to every contractor, every company and every system a repair passes
+        through. Open Repair Record gives it one shape that all of them can read.
+      </p>
+
+      <h2>One word, many meanings</h2>
+      <p>Ask four people involved in the same repair when it is complete, and you get four answers:</p>
+      <ul>
+        <li><strong>The contractor:</strong> when they leave. The work they were sent for is done, as far as they can tell.</li>
+        <li><strong>The coordinator:</strong> when the ticket can be closed and the invoice approved.</li>
+        <li><strong>The resident:</strong> when the problem stops, and stays stopped.</li>
+        <li><strong>The owner:</strong> when they know what was done, what it cost, and that it will not be back next month.</li>
+      </ul>
+      <p>
+        Contractors differ among themselves too. One technician writes "done" after a full test. Another writes "done"
+        after a temporary fix, meaning "done for today". A third closes the job when the part is ordered. The word is
+        the same; the work behind it is not.
+      </p>
+
+      <h2>Every system has its own "done"</h2>
+      <p>
+        Systems add their own meanings. A contractor's app may mark a job <em>Completed</em> when the technician taps a
+        button on site. A helpdesk may mark it <em>Resolved</em> when the contractor's e-mail arrives. A CAFM may close
+        it automatically after a few days without news. A spreadsheet just says <em>done</em>. When one repair passes
+        through the property manager's system, the FM company's CAFM and a subcontractor's app, the same status is set
+        three times, and nobody can say which meaning it carries.
       </p>
       <p>
-        Repair systems are good at moving a ticket from open to closed. They are less good at recording what that
-        closing means: who said the work was done, what was checked, and whether the person who reported the problem
-        agrees. Open Repair Record is a small, shared answer to that: a guide to what a completed repair should say,
-        and a free tool that helps write it.
+        The result is familiar. The job shows as completed everywhere. A week later the resident writes that the leak is
+        back. And nobody can tell from the records what was claimed, what was checked, and what the resident ever said.
+      </p>
+
+      <h2>One shape, whatever the system</h2>
+      <p>
+        Open Repair Record does not replace any of these tools, and it does not try to settle whose "done" is right.
+        It writes down the parts separately: who says the work is done and what exactly they did, what was checked and
+        what was not, what the resident answered, and who closed the record and why. Each company keeps its own system;
+        the record is what they can hand to each other, as a page anyone can read or as a
+        <a href="/format/">small JSON file</a> any system can import.
       </p>
 
       <h2>Who is behind it</h2>
@@ -35,7 +65,7 @@ import Base from "../layouts/Base.astro";
 
       <h2>Taking part</h2>
       <p>
-        The format is at version 0.1 and will change with use. If you run maintenance, do repairs, or build software for
+        The format is at version 1.0, and every 1.x version only adds. If you run maintenance, do repairs, or build software for
         either, we would like to see a real (anonymised) completion report and hear what this gets wrong. Write to
         <a href="mailto:support@pmfriend.com">support@pmfriend.com</a>.
       </p>

@@ -136,7 +136,7 @@ test("JSON: a file that is not a record is refused with reasons", async ({ page 
     name: "bad.json",
     mimeType: "application/json",
     buffer: Buffer.from(JSON.stringify({
-      orr_version: "0.1", context: {}, work: [], checks: [], evidence: [], open_items: [], status: "open", history: [],
+      orr_version: "1.0", context: {}, work: [], checks: [], evidence: [], open_items: [], status: "open", history: [],
       resident: { status: "assumed_ok" },
     })),
   });
@@ -160,8 +160,8 @@ test("the example pages render the report without JavaScript", async ({ browser 
   await expect(page.locator(".report")).toContainText("It's dripping again, same place.");
   const json = await (await page.request.get("/examples/ac-reopened.json")).json();
   expect(json.status).toBe("open");
-  const schema = await (await page.request.get("/schema/orr-0.1.schema.json")).json();
-  expect(schema.title).toBe("Open Repair Record 0.1");
+  const schema = await (await page.request.get("/schema/orr-1.0.schema.json")).json();
+  expect(schema.title).toBe("Open Repair Record 1.0");
   await context.close();
 });
 

@@ -2,7 +2,7 @@
 import Base from "../layouts/Base.astro";
 import { EXAMPLES } from "../examples";
 import Walkthrough from "../components/Walkthrough.astro";
-import schema from "../schema/orr-0.1.schema.json";
+import schema from "../schema/orr-1.0.schema.json";
 
 // The field reference is generated from the JSON Schema, so the explanations can never drift from it.
 type Node = Record<string, any>;
@@ -63,20 +63,20 @@ const mapping = [
   ["not in ORR", "work_priority, planned dates, estimated_cost, repair_sla_breach_flag, access information, alerts, trade and schedule-of-rates codes", "left to the operator's own system"],
 ];
 ---
-<Base title="Format 0.1" description="The Open Repair Record 0.1 JSON format and JSON Schema: fields, rules, examples, and an informal mapping to existing housing repair data models." section="format">
+<Base title="Format 1.0" description="The Open Repair Record 1.0 JSON format and JSON Schema: fields, rules, examples, and an informal mapping to existing housing repair data models." section="format">
   <div class="wrap page-head">
     <div class="prose" style="max-width:860px">
-      <p class="eyebrow">Format 0.1</p>
+      <p class="eyebrow">Format 1.0</p>
       <h1>The record as data</h1>
       <p class="lead">
         The builder saves every record as a small JSON file. The format is open (MIT), versioned, and described by a
         JSON Schema, so any tool can read and write it.
       </p>
       <div class="btn-row" style="margin:20px 0 8px">
-        <a class="btn btn-primary" href="/schema/orr-0.1.schema.json">JSON Schema 0.1</a>
+        <a class="btn btn-primary" href="/schema/orr-1.0.schema.json">JSON Schema 1.0</a>
         <a class="btn" href="/examples/ac-no-reply.json">An example file</a>
       </div>
-      <p class="small muted">JSON Schema draft 2020-12. Schema id: <code>https://openrepairrecord.com/schema/orr-0.1.schema.json</code></p>
+      <p class="small muted">JSON Schema draft 2020-12. Schema id: <code>https://openrepairrecord.com/schema/orr-1.0.schema.json</code></p>
 
     </div>
 
@@ -90,7 +90,7 @@ const mapping = [
     <div class="prose" style="max-width:860px">
       <h2 id="reference">Field reference</h2>
       <p>
-        Every field, with what it means. Generated from the <a href="/schema/orr-0.1.schema.json">JSON Schema</a>, so
+        Every field, with what it means. Generated from the <a href="/schema/orr-1.0.schema.json">JSON Schema</a>, so
         this table and the schema always say the same thing. Only the fields marked <strong>required</strong> must be
         present; everything else is written when you know it.
       </p>
@@ -166,9 +166,23 @@ const mapping = [
       </p>
 
       <h2 id="changelog">Versions</h2>
-      <ul>
-        <li><strong>0.1</strong> (October 2026): first public draft. Breaking changes are possible before 1.0; every change will be listed here with a new version number.</li>
-      </ul>
+      <p>
+        <strong>The promise:</strong> every 1.x version only adds. A file written for 1.0 stays valid in 1.1, 1.2 and
+        later, and its fields keep their meaning. Anything that would break a file waits for 2.0, and is announced here
+        first.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Version</th><th>Status</th><th>What it brings</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1.0</strong></td><td><span class="tag tag-green">Current</span><br /><span class="small muted">18 Oct 2026</span></td><td>The nine parts of a record, the JSON Schema, the builder with its check, print and PDF, five examples.</td></tr>
+            <tr><td><strong>1.1</strong></td><td><span class="tag">Planned</span></td><td>A bilingual English and Arabic report, reviewed by a native speaker who knows local maintenance terms. Optional <code>language</code> field.</td></tr>
+            <tr><td><strong>1.2</strong></td><td><span class="tag">Planned</span></td><td>A draft from a technician's note: each statement keeps the words it came from, and a person confirms it. Optional <code>source</code> on each entry.</td></tr>
+            <tr><td><strong>1.3</strong></td><td><span class="tag">Planned</span></td><td>Links to an asset register: equipment identifiers and a repeat-fault history for the same asset.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted">Planned versions are intentions, not dates. Tell us what you need first: <a href="mailto:support@pmfriend.com">support@pmfriend.com</a>.</p>
     </div>
   </div>
 </Base>

@@ -1,5 +1,5 @@
 import Ajv2020 from "ajv/dist/2020";
-import schema from "../schema/orr-0.1.schema.json";
+import schema from "../schema/orr-1.0.schema.json";
 import type { RepairRecord } from "./record";
 
 const ajv = new Ajv2020({ allErrors: true, strict: true });
@@ -10,7 +10,7 @@ export interface Validation {
   errors: string[];
 }
 
-/** Validates a parsed file against the ORR 0.1 JSON Schema and explains each problem in a line. */
+/** Validates a parsed file against the ORR 1.0 JSON Schema and explains each problem in a line. */
 export function validateRecord(data: unknown): Validation {
   const ok = validator(data);
   const errors = (validator.errors ?? []).map((e) => {
@@ -29,7 +29,7 @@ export function validateRecord(data: unknown): Validation {
   return { ok: Boolean(ok), errors: [...new Set(errors.filter((e): e is string => e !== null))] };
 }
 
-/** Reads the text of a .json file, or explains why it is not an Open Repair Record 0.1. */
+/** Reads the text of a .json file, or explains why it is not an Open Repair Record 1.0. */
 export function parseRecordFile(text: string): { record?: RepairRecord; errors: string[] } {
   let data: unknown;
   try {
@@ -37,8 +37,12 @@ export function parseRecordFile(text: string): { record?: RepairRecord; errors: 
   } catch {
     return { errors: ["This file is not valid JSON."] };
   }
-  if (!data || typeof data !== "object" || (data as { orr_version?: unknown }).orr_version !== "0.1") {
-    return { errors: ['This is not an Open Repair Record 0.1 file (no "orr_version": "0.1").'] };
+  // Files saved on launch day carried the pre-release number "0.1"; the fields are identical, so they open as 1.0.
+  if (data && typeof data === "object" && (data as { orr_version?: unknown }).orr_version === "0.1") {
+    (data as { orr_version: string }).orr_version = "1.0";
+  }
+  if (!data || typeof data !== "object" || (data as { orr_version?: unknown }).orr_version !== "1.0") {
+    return { errors: ['This is not an Open Repair Record 1.0 file (no "orr_version": "1.0").'] };
   }
   const v = validateRecord(data);
   return v.ok ? { record: data as RepairRecord, errors: [] } : { errors: v.errors };

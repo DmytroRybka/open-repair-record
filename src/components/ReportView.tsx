@@ -199,7 +199,7 @@ export default function ReportView({ record: r }: Props) {
       )}
 
       <footer className="report-foot">
-        <span>Made with Open Repair Record 0.1 · openrepairrecord.com</span>
+        <span>Made with Open Repair Record 1.0 · openrepairrecord.com</span>
         <span>This record shows who said what. It is not a safety certificate or an inspection.</span>
       </footer>
     </article>
