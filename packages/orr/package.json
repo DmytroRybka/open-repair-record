@@ -5,17 +5,48 @@
   "license": "MIT",
   "type": "module",
   "homepage": "https://openrepairrecord.com/tools/",
-  "repository": { "type": "git", "url": "git+https://github.com/DmytroRybka/open-repair-record.git", "directory": "packages/orr" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DmytroRybka/open-repair-record.git",
+    "directory": "packages/orr"
+  },
   "bugs": "https://github.com/DmytroRybka/open-repair-record/issues",
-  "keywords": ["repair", "maintenance", "work-order", "facility-management", "property-management", "completion-report", "json-schema"],
+  "keywords": [
+    "repair",
+    "maintenance",
+    "work-order",
+    "facility-management",
+    "property-management",
+    "completion-report",
+    "json-schema"
+  ],
   "exports": {
-    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
     "./schema": "./schema/orr-1.0.schema.json",
     "./package.json": "./package.json"
   },
   "types": "./dist/index.d.ts",
-  "bin": { "orr": "dist/cli.js" },
-  "files": ["dist", "schema", "README.md", "LICENSE"],
+  "bin": {
+    "orr": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "schema",
+    "README.md",
+    "LICENSE"
+  ],
   "sideEffects": false,
-  "engines": { "node": ">=18.3" }
+  "engines": {
+    "node": ">=18.3"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "prepublishOnly": "node build.mjs"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }
